@@ -40,7 +40,7 @@ drv.memcpy_htod(emptyLikelihood_gpu, emptyLikelihood)
 numGen = curandom.MRG32k3aRandomNumberGenerator()
 means_gpu = numGen.gen_normal(shape=(int(numPoints),int(dim)), dtype = np.float32)
 
-means = means_gpu.get()
+means = means_gpu.get_async()
 
 likelihoodKernel = mod.get_function("likelihoodKernel")
 
