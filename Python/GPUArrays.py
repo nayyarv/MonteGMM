@@ -19,7 +19,7 @@ numMixtures = np.int32(4)
 #Generated data!!
 Xpoints = np.random.normal(size=(numPoints,dim)).astype(np.float32)
 
-means = np.zeros(shape=(numMixtures,dim)).astype(np.float32)
+# means = np.zeros(shape=(numMixtures,dim)).astype(np.float32)
 
 # means = np.random.normal(size=(numMixtures,dim)).astype(np.float32)
 # means = np.arange(numMixtures*dim).reshape((numMixtures,dim))
@@ -47,7 +47,10 @@ drv.memcpy_htod(weights_gpu, weights)
 numGen = curandom.MRG32k3aRandomNumberGenerator()
 means_gpu = numGen.gen_normal(shape=(numPoints,dim), dtype = np.float32)
 
-drv.memcpy_dtoh(means, means_gpu)
+# drv.memcpy_dtoh(means, means_gpu)
+means = means_gpu.get_async()
+print means
+
 
 drv.memcpy_htod(emptyLikelihood_gpu, emptyLikelihood)
 
