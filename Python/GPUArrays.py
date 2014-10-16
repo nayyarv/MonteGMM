@@ -12,9 +12,9 @@ with open("../Cuda/KernelV2.cu") as f:
 
 
 
-numPoints = np.int32(128)
-dim = np.int32(5)
-numMixtures = np.int32(4)
+numPoints = 128
+dim = 5
+numMixtures = 4
 
 #Generated data!!
 Xpoints = np.random.normal(size=(numPoints,dim)).astype(np.float32)
@@ -45,7 +45,7 @@ drv.memcpy_htod(weights_gpu, weights)
 
 
 numGen = curandom.MRG32k3aRandomNumberGenerator()
-means_gpu = numGen.gen_normal(shape=(numPoints,dim), dtype = np.float32)
+means_gpu = numGen.gen_normal(shape=(int(numPoints),int(dim)), dtype = np.float32)
 
 # drv.memcpy_dtoh(means, means_gpu)
 means = means_gpu.get_async()
