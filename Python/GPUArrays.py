@@ -30,7 +30,7 @@ weights_gpu = numGen.gen_uniform(shape=(int(numMixtures),int(dim)), dtype = np.f
 print type(gpuarray.sum(weights_gpu))
 # weights_gpu=  
 
-emptyLikelihood_gpu = gpuarray.zeros(shape = int(numPoints))
+emptyLikelihood_gpu = gpuarray.zeros(shape = int(numPoints), dtype = np.float32)
 
 likelihoodKernel = mod.get_function("likelihoodKernel")
 # likelihoodKernel.prepare('PPPPiiiP')
