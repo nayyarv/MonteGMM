@@ -32,20 +32,20 @@ weights/=np.sum(weights)
 emptyLikelihood = np.zeros(numPoints).astype(np.float32)
 
 Xpoints_gpu = drv.mem_alloc(Xpoints.nbytes)
-# means_gpu = drv.mem_alloc(means.nbytes)
+means_gpu = drv.mem_alloc(means.nbytes)
 diagCovs_gpu = drv.mem_alloc(diagCovs.nbytes)
 weights_gpu = drv.mem_alloc(weights.nbytes)
 emptyLikelihood_gpu = drv.mem_alloc(emptyLikelihood.nbytes)
 
 drv.memcpy_htod(Xpoints_gpu,Xpoints)
-# drv.memcpy_htod(means_gpu, means)
+drv.memcpy_htod(means_gpu, means)
 drv.memcpy_htod(diagCovs_gpu, diagCovs)
 drv.memcpy_htod(weights_gpu, weights)
 
 
 
-numGen = curandom.MRG32k3aRandomNumberGenerator()
-means_gpu = numGen.gen_normal(shape=(int(numPoints),int(dim)), dtype = np.float32)
+# numGen = curandom.MRG32k3aRandomNumberGenerator()
+# means_gpu = numGen.gen_normal(shape=(int(numPoints),int(dim)), dtype = np.float32)
 
 # drv.memcpy_dtoh(means, means_gpu)
 # means = means_gpu.get_async()
