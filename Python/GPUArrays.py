@@ -52,7 +52,7 @@ diagCovs = diagCovs_gpu.get_async()
 emptyLikelihood = emptyLikelihood_gpu.get_async()
 
 
-print emptyLikelihood[0]
+
 from scipy.stats import norm
 
 ll = np.zeros(numPoints)
@@ -77,6 +77,8 @@ for i in xrange(numPoints):
 print "Now the Log + Likelihood"
 print np.sum(np.log(ll))
 
+print "CUDA Vers: ", 
+print emptyLikelihood[0]
 
 
 
