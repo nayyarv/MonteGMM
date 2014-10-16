@@ -77,9 +77,7 @@ __global__ void likelihoodKernel(float *Xpoints, float *means, float *diagCovs, 
 	//Should be consistently at the max allowed and easier than dynamic allocation
 
 	int index = blockIdx.x * blockDim.x + threadIdx.x;
-	int threadIndex = threadIdx.x;
-
-	
+	int threadIndex = threadIdx.x;	
 
 	sarray[threadIndex] = 0;
 
