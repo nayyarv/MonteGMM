@@ -3,6 +3,10 @@ import pycuda.autoinit
 from pycuda import curandom
 from pycuda import gpuarray
 from pycuda.compiler import SourceModule
+from pycuda.tools import DeviceData
+
+devData = DeviceData()
+print devData.max_threads, devData.shared_memory
 
 
 import numpy as np
@@ -41,7 +45,7 @@ likelihoodKernel.prepare('PPPPiiiP')
 # 	emptyLikelihood_gpu,
 # 	block = (128,1,1))
 
-likelihoodKernel.prepared_call(grid = (1,1), block=(128, 1,1),  Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, dim, numPoints, numMixtures,	emptyLikelihood_gpu)
+likelihoodKernel.prepared_call((1,1), (128, 1,1),  Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, dim, numPoints, numMixtures,	emptyLikelihood_gpu)
 
 
 
