@@ -9,8 +9,6 @@ with open("../Cuda/KernelV2.cu") as f:
 	mod = SourceModule(f.read())
 
 
-
-
 numPoints = np.int32(128)
 dim = np.int32(5)
 numMixtures = np.int32(4)
