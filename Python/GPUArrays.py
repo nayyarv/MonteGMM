@@ -34,14 +34,12 @@ emptyLikelihood_gpu = gpuarray.zeros(shape = int(numPoints))
 likelihoodKernel = mod.get_function("likelihoodKernel")
 likelihoodKernel.prepare('PPPPiiiP')
 
-# likelihoodKernel(Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, 
-# 	dim, numPoints, numMixtures, 
-# 	emptyLikelihood_gpu,
-# 	block = (128,1,1))
-
-likelihoodKernel.prepared_call(grid = (1,1), block=(1,1),  Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, 
+likelihoodKernel(Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, 
 	dim, numPoints, numMixtures, 
-	emptyLikelihood_gpu)
+	emptyLikelihood_gpu,
+	block = (128,1,1))
+
+# likelihoodKernel.prepared_call(grid = (1,1), block=(128, 1,1),  Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, dim, numPoints, numMixtures,	emptyLikelihood_gpu)
 
 
 
