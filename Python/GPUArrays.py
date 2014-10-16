@@ -27,8 +27,7 @@ means_gpu = numGen.gen_normal(shape=(int(numMixtures),int(dim)), dtype = np.floa
 diagCovs_gpu = numGen.gen_uniform(shape=(int(numMixtures),int(dim)), dtype = np.float32)+1
 
 weights_gpu = numGen.gen_uniform(shape=int(numMixtures), dtype = np.float32)
-print gpuarray.sum(weights_gpu).get()
-print weights_gpu.get()
+weights_gpu /= gpuarray.sum(weights_gpu).get()
 # weights_gpu=  
 
 emptyLikelihood_gpu = gpuarray.zeros(shape = int(numPoints), dtype = np.float32)
