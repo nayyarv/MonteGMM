@@ -45,7 +45,10 @@ likelihoodKernel.prepare('PPPPiiiP')
 # 	emptyLikelihood_gpu,
 # 	block = (128,1,1))
 
-likelihoodKernel.prepared_call((1,1), (128, 1,1),  Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, dim, numPoints, numMixtures,	emptyLikelihood_gpu)
+likelihoodKernel.prepared_call((1,1), (128, 1,1),  
+	Xpoints_gpu.gpudata, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
+	dim, numPoints, numMixtures,	
+	emptyLikelihood_gpu.gpudata)
 
 
 
