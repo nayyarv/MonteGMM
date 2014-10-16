@@ -34,24 +34,26 @@ print weights_gpu.get()
 emptyLikelihood_gpu = gpuarray.zeros(shape = int(numPoints), dtype = np.float32)
 
 likelihoodKernel = mod.get_function("likelihoodKernel")
-# likelihoodKernel.prepare('PPPPiiiP')
+likelihoodKernel.prepare('PPPPiiiP')
 
-likelihoodKernel(Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, 
-	dim, numPoints, numMixtures, 
-	emptyLikelihood_gpu,
-	block = (128,1,1))
+# likelihoodKernel(Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, 
+# 	dim, numPoints, numMixtures, 
+# 	emptyLikelihood_gpu,
+# 	block = (128,1,1))
 
-# likelihoodKernel.prepared_call(grid = (1,1), block=(128, 1,1),  Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, dim, numPoints, numMixtures,	emptyLikelihood_gpu)
-
-
+likelihoodKernel.prepared_call(grid = (1,1), block=(128, 1,1),  Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, dim, numPoints, numMixtures,	emptyLikelihood_gpu)
 
 
+
+
+emptyLikelihood = emptyLikelihood_gpu.get_async()
 means = means_gpu.get_async()
 weights = weights_gpu.get_async()
 diagCovs = diagCovs_gpu.get_async()
-emptyLikelihood = emptyLikelihood_gpu.get_async()
 
 
+print "CUDA Vers: ", 
+print emptyLikelihood[0]
 
 from scipy.stats import norm
 
@@ -77,8 +79,6 @@ for i in xrange(numPoints):
 print "Now the Log + Likelihood"
 print np.sum(np.log(ll))
 
-print "CUDA Vers: ", 
-print emptyLikelihood[0]
 
 
 
