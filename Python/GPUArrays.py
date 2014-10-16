@@ -36,6 +36,9 @@ drv.memcpy_htod(diagCovs_gpu, diagCovs)
 drv.memcpy_htod(weights_gpu, weights)
 drv.memcpy_htod(emptyLikelihood_gpu, emptyLikelihood)
 
+numGen = curandom.MRG32k3aRandomNumberGenerator()
+means_gpu = numGen.gen_normal(shape=(int(numPoints),int(dim)), dtype = np.float32)
+
 likelihoodKernel = mod.get_function("likelihoodKernel")
 
 likelihoodKernel(Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, 
@@ -44,8 +47,7 @@ likelihoodKernel(Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu,
 	block = (128,1,1))
 
 # diag_kernel(, a_stride, a_N, block = (blcksize,1,1))
-# numGen = curandom.MRG32k3aRandomNumberGenerator()
-# means_gpu = numGen.gen_normal(shape=(int(numPoints),int(dim)), dtype = np.float32)
+
 
 # drv.memcpy_dtoh(means, means_gpu)
 # means = means_gpu.get_async()
