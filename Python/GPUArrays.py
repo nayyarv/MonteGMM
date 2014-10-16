@@ -43,7 +43,7 @@ drv.memcpy_htod(weights_gpu, weights)
 
 
 numGen = curandom.MRG32k3aRandomNumberGenerator()
-means_gpu = numGen.gen_normal(shape=(numPoints,dim), type = np.float32)
+means_gpu = numGen.gen_normal(shape=(numPoints,dim), dtype = np.float32)
 
 drv.memcpy_dtoh(means, means_gpu)
 
