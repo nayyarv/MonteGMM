@@ -19,6 +19,8 @@ numMixtures = np.int32(4)
 #Generated data!!
 Xpoints = np.random.normal(size=(numPoints,dim)).astype(np.float32)
 
+means = np.zeros((size=(numMixtures,dim)).astype(np.float32))
+
 # means = np.random.normal(size=(numMixtures,dim)).astype(np.float32)
 # means = np.arange(numMixtures*dim).reshape((numMixtures,dim))
 # means=means.astype(np.float32)
