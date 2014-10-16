@@ -27,12 +27,13 @@ means_gpu = numGen.gen_normal(shape=(int(numMixtures),int(dim)), dtype = np.floa
 diagCovs_gpu = numGen.gen_uniform(shape=(int(numMixtures),int(dim)), dtype = np.float32)+1
 
 weights_gpu = numGen.gen_uniform(shape=(int(numMixtures),int(dim)), dtype = np.float32)
-weights_gpu/= gpuarray.sum(weights_gpu)
+print type(gpuarray.sum(weights))
+# weights_gpu=  
 
 emptyLikelihood_gpu = gpuarray.zeros(shape = int(numPoints))
 
 likelihoodKernel = mod.get_function("likelihoodKernel")
-likelihoodKernel.prepare('PPPPiiiP')
+# likelihoodKernel.prepare('PPPPiiiP')
 
 likelihoodKernel(Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, 
 	dim, numPoints, numMixtures, 
