@@ -1,5 +1,6 @@
 import pycuda.driver as drv
 import pycuda.autoinit
+from pycuda import curandom
 from pycuda.compiler import SourceModule
 
 
