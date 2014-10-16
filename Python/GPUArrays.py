@@ -6,7 +6,7 @@ from pycuda.compiler import SourceModule
 from pycuda.tools import DeviceData
 
 devData = DeviceData()
-print devData.max_threads, devData.shared_memory
+print "MaxThreads: {}, shareMem: {}".format(devData.max_threads, devData.shared_memory)
 
 
 import numpy as np
@@ -75,7 +75,7 @@ for i in xrange(numPoints):
 			c = diagCovs[mixes][d]
 
 			# multiVal*= 1/np.sqrt(2*np.pi*c)*np.exp(-1.0/2 * ((x-m)**2)/c)
-			multiVal *= norm.pdf(Xpoints[i][d], loc=means[mixes][d], scale=np.sqrt(diagCovs[mixes][d]))
+			multiVal *= norm.pdf(x, loc=m, scale=np.sqrt(c))
 		
 		ll[i] += weights[mixes] * multiVal
 
