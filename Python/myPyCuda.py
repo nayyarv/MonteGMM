@@ -5,7 +5,7 @@ from pycuda.compiler import SourceModule
 
 import numpy as np
 
-with open("KernelV2.cu") as f:
+with open("../Cuda/KernelV2.cu") as f:
 	mod = SourceModule(f.read())
 
 
