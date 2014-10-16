@@ -1,6 +1,7 @@
 import pycuda.driver as drv
 import pycuda.autoinit
 from pycuda import curandom
+from pycuda import gpuarray
 from pycuda.compiler import SourceModule
 
 
@@ -16,47 +17,39 @@ numMixtures = np.int32(4)
 
 #Generated data!!
 Xpoints = np.random.normal(size=(numPoints,dim)).astype(np.float32)
-means = np.random.normal(size=(numMixtures,dim)).astype(np.float32)
-# means = np.arange(numMixtures*dim).reshape((numMixtures,dim))
-# means=means.astype(np.float32)
-diagCovs = np.random.uniform(size=(numMixtures,dim)).astype(np.float32)+1
-weights = np.random.uniform(size=numMixtures).astype(np.float32)
-weights/=np.sum(weights)
-
-emptyLikelihood = np.zeros(numPoints).astype(np.float32)
-
 Xpoints_gpu = drv.mem_alloc(Xpoints.nbytes)
-means_gpu = drv.mem_alloc(means.nbytes)
-diagCovs_gpu = drv.mem_alloc(diagCovs.nbytes)
-weights_gpu = drv.mem_alloc(weights.nbytes)
-emptyLikelihood_gpu = drv.mem_alloc(emptyLikelihood.nbytes)
-
 drv.memcpy_htod(Xpoints_gpu,Xpoints)
-drv.memcpy_htod(means_gpu, means)
-drv.memcpy_htod(diagCovs_gpu, diagCovs)
-drv.memcpy_htod(weights_gpu, weights)
-drv.memcpy_htod(emptyLikelihood_gpu, emptyLikelihood)
+
 
 numGen = curandom.MRG32k3aRandomNumberGenerator()
-means_gpu = numGen.gen_normal(shape=(int(numPoints),int(dim)), dtype = np.float32)
 
-means = means_gpu.get_async()
+means_gpu = numGen.gen_normal(shape=(int(numMixtures),int(dim)), dtype = np.float32)
+diagCovs_gpu = numGen.gen_uniform(shape=(int(numMixtures),int(dim)), dtype = np.float32)+1
+
+weights_gpu = numGen.gen_uniform(shape=(int(numMixtures),int(dim)), dtype = np.float32)
+weights_gpu/= gpuarray.sum(weights_gpu)
+
+emptyLikelihood_gpu = gpuarray.zeros(shape = int(numPoints))
 
 likelihoodKernel = mod.get_function("likelihoodKernel")
+likelihoodKernel.prepare('PPPPiiiP')
 
-likelihoodKernel(Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, 
+# likelihoodKernel(Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, 
+# 	dim, numPoints, numMixtures, 
+# 	emptyLikelihood_gpu,
+# 	block = (128,1,1))
+
+likelihoodKernel.prepared_call(grid = (1,1), block=(1,1),  Xpoints_gpu, means_gpu, diagCovs_gpu, weights_gpu, 
 	dim, numPoints, numMixtures, 
-	emptyLikelihood_gpu,
-	block = (128,1,1))
-
-# diag_kernel(, a_stride, a_N, block = (blcksize,1,1))
+	emptyLikelihood_gpu)
 
 
-# drv.memcpy_dtoh(means, means_gpu)
-# means = means_gpu.get_async()
-# print means
 
-drv.memcpy_dtoh(emptyLikelihood, emptyLikelihood_gpu)
+
+means = means_gpu.get_async()
+weights = weights_gpu.get_async()
+diagCovs = diagCovs_gpu.get_async()
+emptyLikelihood = emptyLikelihood_gpu.get_async()
 
 
 print emptyLikelihood[0]
