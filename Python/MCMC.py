@@ -39,7 +39,7 @@ weights = weights.astype(np.float32)
 #Initial mean
 # means = np.random.normal(loc = 1.5, scale = 1, size=(numMixtures,dim)).astype(np.float32)
 means = np.array([[2],[3]]).astype(np.float32)
-numRuns = 8000
+numRuns = 800
 
 oldLL = -10000
 newLL = 0
@@ -47,10 +47,17 @@ ll= np.zeros(numPoints * numMixtures)
 samples = np.zeros((numRuns, 2))
 diagVal = 1.5
 acceptNum = 0
-
+currentPos = 0
 for k in xrange(numRuns):
 	if k%100==0:
 		print "At ", k, " iterations"
+
+	if currentPos>1:
+		diagVal=0.2
+	else:
+		diagVal = 1.5
+
+
 	proposalFunc = np.random.multivariate_normal(mean = [0,0], cov = np.diag([diagVal, diagVal]))
 	ll[:] = 0
 
@@ -75,8 +82,10 @@ for k in xrange(numRuns):
 		means.T[0]+=proposalFunc
 		oldLL = newLL
 		acceptNum+=1
+		currentPos =0
 		# print k, " A ", means.T[0], proposalFunc, newLL, acceptProb
-	# else:
+	else:
+		currentPos+=1
 		# print k, "N ", means.T[0] + proposalFunc, proposalFunc, newLL, acceptProb
 
 	samples[k] = (means.T[0]+0)
@@ -86,15 +95,19 @@ print acceptNum
 # print samples
 plt.subplot(211)
 plt.acorr(samples.T[0][200:]-np.mean(samples.T[0][200:]), maxlags=100)
-print samples.T[0][200:]
+# print samples.T[0][200:]
 
 plt.subplot(212)
 plt.acorr(samples.T[1][200:]-np.mean(samples.T[1][200:]), maxlags=100)
-print samples.T[1][200:]
+# print samples.T[1][200:]
 
-plt.show()
+plt.figure()
 
-plt.hexbin(samples.T[0][200::50], samples.T[1][200::50])
+plt.hexbin(samples.T[0][200:], samples.T[1][200:], bins='log')
+
+# plt.figure()
+# plt.contour(samples.T[0][200:], samples.T[1][200:])
+
 plt.show()
 
 print acceptNum
