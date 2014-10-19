@@ -1,0 +1,1498 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"if",
+				"ifmain	if __name__ == '__main__'"
+			],
+			[
+				"NU",
+				"numRuns"
+			],
+			[
+				"st",
+				"startTime"
+			],
+			[
+				"nu",
+				"numMixtures"
+			],
+			[
+				"c",
+				"cPickle"
+			],
+			[
+				"ema",
+				"emailScripy  (module)"
+			],
+			[
+				"cu",
+				"currentPos"
+			],
+			[
+				"acc",
+				"acceptNum"
+			],
+			[
+				"dia",
+				"diagVal"
+			],
+			[
+				"prop",
+				"proposalFunc"
+			],
+			[
+				"prp",
+				"proposalFunc"
+			],
+			[
+				"num",
+				"numMixtures"
+			],
+			[
+				"Xp",
+				"Xpoints"
+			],
+			[
+				"X",
+				"Xpoints"
+			],
+			[
+				"mat",
+				"matplotlib  (module)"
+			],
+			[
+				"weights",
+				"weights_gpu"
+			],
+			[
+				"wei",
+				"weights"
+			],
+			[
+				"emp",
+				"emptyLikelihood_gpu"
+			],
+			[
+				"lik",
+				"likelihoodKernel"
+			],
+			[
+				"di",
+				"diagCovs_gpu"
+			],
+			[
+				"em",
+				"emptyLikelihood_gpu"
+			],
+			[
+				"means",
+				"means_gpu"
+			],
+			[
+				"mea",
+				"means_gpu"
+			],
+			[
+				"memcpy",
+				"memcpy_dtoh"
+			],
+			[
+				"Xpoint",
+				"Xpoints_gpu"
+			],
+			[
+				"cr",
+				"cropL"
+			],
+			[
+				"ims",
+				"imshow  (function)"
+			],
+			[
+				"crop",
+				"cropPens"
+			],
+			[
+				"Xpoi",
+				"Xpoints1"
+			],
+			[
+				"as",
+				"astype"
+			],
+			[
+				"bloc",
+				"blockIdx"
+			],
+			[
+				"like",
+				"Likelihood"
+			],
+			[
+				"fo",
+				"for	For Loop"
+			],
+			[
+				"thread",
+				"threadIndex"
+			],
+			[
+				"the",
+				"threadIndex"
+			],
+			[
+				"ome",
+				"omegaJed"
+			],
+			[
+				"for",
+				"forv	Vector For Loop"
+			],
+			[
+				"nor",
+				"normalDistribution"
+			],
+			[
+				"de",
+				"device_array"
+			],
+			[
+				"grid",
+				"grid_size"
+			],
+			[
+				"num_",
+				"num_elements_y"
+			],
+			[
+				"num_elem",
+				"num_elements_x"
+			],
+			[
+				"index",
+				"index_x"
+			],
+			[
+				"ear",
+				"earlyexit"
+			],
+			[
+				"proble",
+				"problemPorts"
+			],
+			[
+				"por",
+				"ports"
+			],
+			[
+				"port",
+				"ports"
+			],
+			[
+				"out",
+				"output"
+			],
+			[
+				"FST",
+				"FSTROOT"
+			],
+			[
+				"SymB",
+				"SymbBar"
+			],
+			[
+				"bet",
+				"betaFinal"
+			],
+			[
+				"sym",
+				"symbData"
+			],
+			[
+				"pre",
+				"predictors"
+			],
+			[
+				"pr",
+				"preds"
+			],
+			[
+				"ob",
+				"observation"
+			],
+			[
+				"sy",
+				"symbolicDat"
+			],
+			[
+				"tot",
+				"totalString"
+			],
+			[
+				"pdf",
+				"pdfdata"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "GPUArrays.py",
+			"settings":
+			{
+				"buffer_size": 2217,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "#Monte Carlo \n\n\n\n# import pycuda.driver as drv\n# import pycuda.autoinit\n# from pycuda.compiler import SourceModule\n\n# with open(\"KernelV2.cu\") as f:\n# 	mod = SourceModule(f.read())\n\n# likelihoodKernel = mod.get_function(\"likelihoodKernel\")\n# likelihoodKernel.prepare('PPPPiiiP')\n\nimport numpy as np\nfrom scipy.stats import norm\nfrom emailScripy import alertMe\nimport cPickle\nimport time\n\n\nnumRuns = 80\nnumPoints = np.int32(8)\ndim = np.int32(1)\nnumMixtures = np.int32(2)\n\n\n\ndef main():\n\n	startTime = time.ctime()\n\n	#Generated data!!\n	with open(\"../Data/Mean2,3;16pts;1dim.txt\") as f:\n		Xpoints = cPickle.load(f)\n\n\n	# plt.hist(Xpoints)\n	# plt.show()\n\n	weights = np.ones(numMixtures)/(1.0*numMixtures)\n	weights = weights.astype(np.float32)\n	# means = np.arange(numMixtures*dim).reshape((numMixtures,dim))\n	# means=means.astype(np.float32)\n\n	#Initial mean\n	# means = np.random.normal(loc = 1.5, scale = 1, size=(numMixtures,dim)).astype(np.float32)\n\n\n	means = np.array([[2],[3]]).astype(np.float32)\n\n	oldLL = -10000\n	newLL = 0\n	ll= np.zeros(numPoints * numMixtures)\n	samples = np.zeros((numRuns, 2))\n	diagVal = 1.5\n	acceptNum = 0\n	currentPos = 0\n	for k in xrange(numRuns):\n		if k%100==0:\n			print \"At \", k, \" iterations\"\n\n		if currentPos>1:\n			diagVal=0.2\n		else:\n			diagVal = 1.5\n\n\n		proposalFunc = np.random.multivariate_normal(mean = [0,0], cov = np.diag([diagVal, diagVal]))\n		ll[:] = 0\n\n		for i in xrange(numPoints * numMixtures):\n			for mixes in xrange(numMixtures):\n				multiVal = 1.0\n				for d in xrange(dim):\n					x = Xpoints[i][d]\n					m  = means[mixes][d] + proposalFunc[mixes]\n					\n					c = 1\n\n					# multiVal*= 1/np.sqrt(2*np.pi*c)*np.exp(-1.0/2 * ((x-m)**2)/c)\n					multiVal *= norm.pdf(x, loc=m, scale=np.sqrt(c))\n				\n				ll[i] += multiVal/weights[mixes]\n		\n		newLL = np.sum(np.log(ll))\n		acceptProb = np.exp(newLL-oldLL)\n\n		if ( acceptProb>=1 or acceptProb>np.random.uniform()):\n			means.T[0]+=proposalFunc\n			oldLL = newLL\n			acceptNum+=1\n			currentPos =0\n			# print k, \" A \", means.T[0], proposalFunc, newLL, acceptProb\n		else:\n			currentPos+=1\n			# print k, \"N \", means.T[0] + proposalFunc, proposalFunc, newLL, acceptProb\n\n		samples[k] = (means.T[0]+0)\n\n\n	print acceptNum\n\n\n	with open(\"../Data/Mean2,3;16pts;1dim;MCMCRes{}.txt\".format(numRuns), 'w') as f:\n		cPickle.dump(samples, f)\n\n	endTime = time.ctime()\n\n	alertMe(\"Start: {}\\nEnd:{}\\n AcceptNum:{}\".format(startTime, endTime, acceptNum))\n\n\nif __name__ == '__main__':\n	import sys\n	\n	if len(sys.argv) > 1:\n		#We have a numRuns length\n	# main()",
+			"file": "MCMC.py",
+			"file_size": 2516,
+			"file_write_time": 130581991020000000,
+			"settings":
+			{
+				"buffer_size": 2513,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "DataAnalysis.py",
+			"settings":
+			{
+				"buffer_size": 540,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "DataGenerator.py",
+			"settings":
+			{
+				"buffer_size": 526,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"Instal",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"INstal",
+				"Package Control: Install Package"
+			],
+			[
+				"Install",
+				"Package Control: Install Package"
+			],
+			[
+				"Pcak",
+				"Package Control: Install Package"
+			],
+			[
+				"pa",
+				"Package Control: Install Package"
+			],
+			[
+				"Package",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 602.0
+	},
+	"console":
+	{
+		"height": 194.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"a=3",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/DataGenerator",
+		"/usr/local/lib/python2.7/site-packages/numpy/lib/twodim_base.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/myPyCuda.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Thesis/emailScripy.py",
+		"/usr/local/Cellar/python/2.7.8/Frameworks/Python.framework/Versions/2.7/lib/python2.7/smtplib.py",
+		"/Users/varunnayyar/Downloads/Browniancylinder.m",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/MSP/Proj 1/Part1/Task1main.cpp",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/MSP/Project 2/FileMaker.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Thesis/pyCudaStreams.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/MSP/Project 2/Part2/main.cpp",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/MSP/Proj 1/Part3/Task1main.cpp",
+		"/usr/local/lib/python2.7/site-packages/matplotlib/__init__.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/MSP/Proj 1/Part1/CMakeLists.txt",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/MSP/Project 2/Part1/noiseAdder.py",
+		"/usr/local/lib/python2.7/site-packages/matplotlib/style/core.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Ethics/Report/Ref.bib",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Ethics/Seminar 1/Chris P1.txt",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Cuda/KernelV2.cu",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/MCMC.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/test2.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/PyCuda/test2.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/PyCuda/test1.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/Final Code/MainKernel.cu",
+		"/Users/varunnayyar/Dropbox/Cuda Code/pycuda/examples/demo.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/pycuda/examples/hello_gpu.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/Final Code/runningkernel.cu",
+		"/usr/local/bin/adamserver",
+		"/Users/varunnayyar/Dropbox/Cuda Code/PyCuda/pycudaeg.py",
+		"/Users/varunnayyar/Downloads/npcuda-example-master/cython/src/kernel.cu",
+		"/Users/varunnayyar/Downloads/npcuda-example-master/cython/test.py",
+		"/Users/varunnayyar/Downloads/npcuda-example-master/cython/wrapper.pyx",
+		"/Users/varunnayyar/Downloads/npcuda-example-master/cython/src/manager.hh",
+		"/Users/varunnayyar/Downloads/npcuda-example-master/cython/src/manager.cu",
+		"/Users/varunnayyar/Downloads/npcuda-example-master/cython/setup.py",
+		"/Users/varunnayyar/IdeaProjects/Cpython/Ctest.c",
+		"/Users/varunnayyar/IdeaProjects/Cpython/TestScript.py",
+		"/Users/varunnayyar/IdeaProjects/Cpython/setup.py",
+		"/Users/varunnayyar/IdeaProjects/Cpython/interface.pyx",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Ethics/Ethics Wordlist",
+		"/Users/varunnayyar/IdeaProjects/Cpython/interface.c",
+		"/Users/varunnayyar/IdeaProjects/Cpython/C file",
+		"/Users/varunnayyar/Desktop/CMV",
+		"/Applications/.Things/Backup-codes-nayyarv.txt",
+		"/Users/varunnayyar/Dropbox/Cuda Code/Harp - gmmcuda/gpugaumixmod_kernel.h",
+		"/Users/varunnayyar/Dropbox/Cuda Code/Harp - gmmcuda/gpugaumixmod.h",
+		"/Users/varunnayyar/Dropbox/Cuda Code/Final Code/gmm.h",
+		"/Users/varunnayyar/Dropbox/Cuda Code/Final Code/likelihoodeval.cu",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/ELEC4622/Proj 1/bin/runner.sh",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/ELEC4622/Proj 1/Part2/plot.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/ELEC4622/Proj 1/in.txt",
+		"/Users/varunnayyar/Dropbox/Uni Work/2013, Sem 1/ELEC4621/Lab Investigations/Lab3/Part1.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/ELEC4622/Labs/Lab 2/lab2FIR/lab2FIR/filtering_main.cpp",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/ELEC4622/Proj 1/Part2/Task2main.cpp",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/ELEC4622/Proj 1/Part2/out.bmp",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/ELEC4622/core topics",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/ELEC4622/Labs/Hines2/lab2/image_comps.h",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/ELEC4622/Notes1.txt",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/ELEC4622/Labs/Hines2/lab2/filtering_main.cpp",
+		"/Users/varunnayyar/Dropbox/Job Applications/Jane Street/Jane St Questions",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/ELEC4622/Notes1",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Ethics/Seminar 2/Abog",
+		"/Users/varunnayyar/Dropbox/Cuda Code/Final Code/untitled",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Open Day/Buffon Writeup/Poster/monte.txt",
+		"/usr/local/lib/python2.7/site-packages/matplotlib/mpl-data/stylelib/ggplot.mplstyle",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Open Day/buffon.R",
+		"/usr/local/lib/python2.7/site-packages/matplotlib/mpl-data/stylelib/bmh.mplstyle",
+		"/usr/local/lib/python2.7/site-packages/matplotlib/mpl-data/stylelib/pretty.mplstyle",
+		"/Users/varunnayyar/IdeaProjects/someFun/mc.py",
+		"/usr/local/lib/python2.7/site-packages/matplotlib/mpl-data/stylelib/fivethirtyeight.mplstyle",
+		"/usr/local/lib/python2.7/site-packages/matplotlib/backends/backend_macosx.py",
+		"/usr/local/lib/python2.7/site-packages/matplotlib/artist.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Open Day/monte.txt",
+		"/Users/varunnayyar/Dropbox/Job Applications/Cover Letters/Quantium.txt",
+		"/Users/varunnayyar/Dropbox/Job Applications/Cover Letters/Jane Street.txt",
+		"/Users/varunnayyar/Dropbox/Cuda Code/Tutes/task3.cu",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Ethics/Whistleblowing",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Ethics/Seminar 1/presentation.tex",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Ethics/Seminar 1/Chris P1",
+		"/Developer/NVIDIA/CUDA-6.0/samples/0_Simple/matrixMul/matrixMul.cu",
+		"/Developer/NVIDIA/CUDA-6.0/samples/0_Simple/matrixMulCUBLAS/new/matrixMulCUBLAS.cpp",
+		"/Users/varunnayyar/IdeaProjects/someFun/cardshuffling.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/Final Code/likelihoodeval.c",
+		"/Users/varunnayyar/IdeaProjects/someFun/cardshuffling",
+		"/Users/varunnayyar/macports/share/doc/ghc/html/libraries/pretty-1.1.1.0/pretty.txt",
+		"/Users/varunnayyar/Library/Application Support/Sublime Text 3/Packages/User/R.sublime-build",
+		"/Applications/Sublime Text.app/Contents/MacOS/Packages/R.sublime-package",
+		"/Users/varunnayyar/Dropbox/Cuda Code/tricks",
+		"/Users/varunnayyar/IdeaProjects/mc.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Other/buffon",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Other/plot2.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Other/graph.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Other/Buffon Equation.tex",
+		"/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/matplotlib/patches.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Other/Buffon.lyx",
+		"/Users/varunnayyar/.bash_profile",
+		"/Users/varunnayyar/.bash_history",
+		"/Users/varunnayyar/.profile",
+		"/Users/varunnayyar/Desktop/Optiver",
+		"/Users/varunnayyar/Dropbox/Job Applications/Cover Letters/SAS",
+		"/Users/varunnayyar/Desktop/JSt q",
+		"/Users/varunnayyar/IdeaProjects/fun.py",
+		"/Users/varunnayyar/Dropbox/Job Applications/Cover Letters/Jane Street",
+		"/Users/varunnayyar/Desktop/Thesis COmments",
+		"/Users/varunnayyar/Desktop/UNSW Workstation",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 1/Thesis/Report/ThesisAReport.lyx",
+		"/Users/varunnayyar/IdeaProjects/defzoom.css",
+		"/Volumes/SANSA CLIPP/MUSIC/Classical Music.m3u",
+		"/Users/varunnayyar/IdeaProjects/Mp3Syncer/sync.sh",
+		"/Users/varunnayyar/Library/Application Support/Sublime Text 3/Packages/User/Bash.sublime-build",
+		"/Users/varunnayyar/IdeaProjects/Mp3Syncer/Top 50 Most Played.m3u",
+		"/Users/varunnayyar/IdeaProjects/pythonReading/portFun.py",
+		"/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/subprocess.py",
+		"/opt/local/share/texmf-texlive/doc/latex/latex2e-help-texinfo-spanish/latex2e-es.txt",
+		"/Users/varunnayyar/Downloads/flat.icns-1.0/README.md",
+		"/Users/varunnayyar/Documents/Cochlear/vnayyar_macbookpro-af9d_1721/dsp/Projects/AutoNRT/Pickle/RelativeBotrosTailNoise.txt",
+		"/Users/varunnayyar/Documents/A Pre-exam Party Menu",
+		"/Users/varunnayyar/Downloads/exam-marks (1).svg",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 1/Thesis/Report/ThesisBib.bib",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 1/MATH  5836 - Data Mining/Data Mining Marking",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 1/Thesis/Report/scratch",
+		"/Users/varunnayyar/IdeaProjects/MonteCarlo/SimpleIntros.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 1/MATH  5836 - Data Mining/Pressi/PLSA/ml-1m/movies.dat",
+		"/Users/varunnayyar/Downloads/ml-100k/u.data",
+		"/Users/varunnayyar/Downloads/ml-100k/u.occupation",
+		"/Users/varunnayyar/Downloads/ml-100k/u.item",
+		"/Users/varunnayyar/Downloads/ml-100k/u.info",
+		"/Users/varunnayyar/Downloads/ml-100k/u.genre",
+		"/Users/varunnayyar/Downloads/ml-100k/README"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"100",
+			"200",
+			"  ",
+			",,",
+			"  ",
+			"likelihoodKernel = mod.get_function(\"likelihoodKernel\")\nlikelihoodKernel.prepare('PPPPiiiP')",
+			"int32",
+			"funFunc",
+			"Ctest",
+			"ctest",
+			"extern",
+			"\\n\\n",
+			"\\n\\n\\n\\n",
+			"PI",
+			"\\(+\\d+\\d+\\)",
+			"input_comps",
+			"in",
+			"332 266",
+			"332 2",
+			"332 266",
+			"normalised",
+			"init(",
+			"kernel1",
+			"'",
+			"'#",
+			"ppl",
+			"palantir",
+			"double",
+			"float",
+			"alpha",
+			"color",
+			"Jane",
+			"\\n",
+			"[1-9]",
+			"Paragraph\\*",
+			"Section\\*",
+			"Chapter\\*",
+			"Subsubsection\\*",
+			"Subsection\\*",
+			"Subsection*",
+			"Subsection",
+			">",
+			"k",
+			"df",
+			"mathjax",
+			"	",
+			",",
+			"figure+[/]",
+			"\\n",
+			"; ",
+			"\\n",
+			"2/29",
+			" ",
+			"\\n",
+			",",
+			"[A-Z]",
+			"g",
+			"checking for",
+			"opt/local",
+			"fstRoot",
+			"FSTRoot",
+			"openfst",
+			"\\\\iTunes\\\\",
+			"iTunes\\",
+			"\\iTunes\\",
+			"/",
+			"iTunes/iTunes Media/Music/",
+			"/iTunes/",
+			"/Users/varunnayyar/Music",
+			"arctic",
+			"Hello",
+			"/Users/varunnayyar/Music/iTunes/iTunes Media/Music/",
+			"/Users/varunnayyar/Music/iTunes/iTunes Media",
+			"euclid",
+			"order",
+			"minimal",
+			"order",
+			"syndrome",
+			"syndrom",
+			"generator",
+			"syndrome",
+			"sydnrom",
+			"hamming",
+			"system",
+			"standard",
+			"block",
+			"75",
+			"Expected",
+			"k",
+			"2012",
+			"conics",
+			"\\s'",
+			"'\\b",
+			"^i",
+			"\\A",
+			"^a/",
+			"`"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"burnIn",
+			",",
+			"\\n",
+			"\\n\\n",
+			"\\n",
+			"M_PI",
+			"otherIn_comps",
+			"otherIn",
+			"likelihoodKernel",
+			"plt",
+			"float",
+			"double",
+			"Paragraph",
+			"Section",
+			"Chapter",
+			"Subsubsection",
+			"Subsection",
+			"j",
+			"sampledata",
+			",",
+			"",
+			"; ",
+			"\\n",
+			"; ",
+			", ",
+			"; ",
+			",",
+			"",
+			"iTunes\\\\",
+			"\\",
+			"iTunes/",
+			"",
+			" `",
+			"`"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "GPUArrays.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2217,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2091,
+								2043
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountSyntax": "python",
+							"bh_regions":
+							[
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1047.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "MCMC.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2513,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2503,
+								2503
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "python",
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1522.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "DataAnalysis.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 540,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								340,
+								340
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": true,
+							"WordCountSyntax": "plain text",
+							"auto_name": "",
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "DataGenerator.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 526,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								307,
+								307
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "python",
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 199.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "thesis.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"~/Dropbox/Uni Work/Exchange Sem 2, 2013/184 - Combinatorics/Lecture Notes/combinatorics.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
