@@ -18,8 +18,6 @@ from emailScripy import alertMe
 import cPickle
 import time
 
-
-
 numPoints = np.int32(8)
 dim = np.int32(1)
 numMixtures = np.int32(2)
@@ -111,7 +109,7 @@ def main(numRuns = 80):
 
 	endTime = time.ctime()
 	print "Alerting Varun"
-	alertMe("\nStart: {}\nEnd: {}\nAcceptProb: {}/numRuns\n".format(startTime, endTime, (1.0*acceptNum)/numRuns))
+	alertMe("\nStart: {}\nEnd: {}\nAcceptProb: {}\n".format(startTime, endTime, (1.0*acceptNum)/numRuns))
 
 
 if __name__ == '__main__':
