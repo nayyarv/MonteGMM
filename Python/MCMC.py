@@ -30,7 +30,7 @@ def main(numRuns = 80):
 	startTime = time.ctime()
 
 	#Generated data!!
-	with open("../Data/Mean2,3;16pts;1dim.txt") as f:
+	with open("../FixedDataSet/Mean2,3;16pts;1dim.txt") as f:
 		Xpoints = cPickle.load(f)
 
 

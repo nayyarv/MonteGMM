@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 import cPickle
 
 
-with open("../Data/Mean2,3;16pts;1dim.txt") as f:
+with open("../FixedDataSet/Mean2,3;16pts;1dim.txt") as f:
 	Xpoints = cPickle.load(f)
 
 def main():
