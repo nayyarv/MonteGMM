@@ -15,19 +15,22 @@
 from matplotlib import pyplot as plt
 import numpy as np
 from scipy.stats import norm
+from emailScripy import alertMe
+import cPickle
+import time
 
 
-numPoints = np.int32(16)
+numPoints = np.int32(8)
 dim = np.int32(1)
 numMixtures = np.int32(2)
 
+startTime = time.ctime()
+
 #Generated data!!
-Xpoints1 = np.random.normal(loc = 1, size=(numPoints,dim)).astype(np.float32)
-Xpoints2 = np.random.normal(loc = 4, size=(numPoints,dim)).astype(np.float32)
+with open("../Data/Mean2,3;16pts;1dim.txt") as f:
+	Xpoints = cPickle.load(f)
 
 
-
-Xpoints = np.vstack((Xpoints1, Xpoints2))
 # plt.hist(Xpoints)
 # plt.show()
 
@@ -38,8 +41,9 @@ weights = weights.astype(np.float32)
 
 #Initial mean
 # means = np.random.normal(loc = 1.5, scale = 1, size=(numMixtures,dim)).astype(np.float32)
+numRuns = 8000
+
 means = np.array([[2],[3]]).astype(np.float32)
-numRuns = 800
 
 oldLL = -10000
 newLL = 0
@@ -92,25 +96,14 @@ for k in xrange(numRuns):
 
 
 print acceptNum
-# print samples
-plt.subplot(211)
-plt.acorr(samples.T[0][200:]-np.mean(samples.T[0][200:]), maxlags=100)
-# print samples.T[0][200:]
 
-plt.subplot(212)
-plt.acorr(samples.T[1][200:]-np.mean(samples.T[1][200:]), maxlags=100)
-# print samples.T[1][200:]
 
-plt.figure()
+with open("../Data/Mean2,3;16pts;1dim;MCMCRes.txt", 'w') as f:
+	cPickle.dump(samples, f)
 
-plt.hexbin(samples.T[0][200:], samples.T[1][200:], bins='log')
+endTime = time.ctime()
 
-# plt.figure()
-# plt.contour(samples.T[0][200:], samples.T[1][200:])
-
-plt.show()
-
-print acceptNum
+alertMe("Start: {}\nEnd:{}\n AcceptNum:{}".format(startTime, endTime, acceptNum)
 
 
 
