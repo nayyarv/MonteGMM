@@ -102,13 +102,16 @@ def main(numRuns = 80):
 
 	print acceptNum
 
+	print "Pickling"
 
 	with open("../Data/Mean2,3;16pts;1dim;MCMCRes{}.txt".format(numRuns), 'w') as f:
 		cPickle.dump(samples, f)
 
-	endTime = time.ctime()
 
-	alertMe("\nStart: {}\nEnd:{}\nAcceptNum:{}\n".format(startTime, endTime, acceptNum))
+
+	endTime = time.ctime()
+	print "Alerting Varun"
+	alertMe("\nStart: {}\nEnd: {}\nAcceptProb: {}/numRuns\n".format(startTime, endTime, (1.0*acceptNum)/numRuns))
 
 
 if __name__ == '__main__':
