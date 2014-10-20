@@ -18,14 +18,14 @@ from emailScripy import alertMe
 import cPickle
 import time
 
-numPoints = np.int32(8)
+
 dim = np.int32(1)
 numMixtures = np.int32(2)
 
 
 
 def main(inputDataLen = 16, numRuns = 80):
-
+	numPoints = inputDataLen/2 #Number of each
 
 	startTime = time.ctime()
 
