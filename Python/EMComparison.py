@@ -9,12 +9,12 @@ from matplotlib import pyplot as plt
 import cPickle
 
 
-with open("../FixedDataSet/Mean2,3;16pts;1dim.txt") as f:
+with open("../FixedDataSet/Mean2,3;256pts;1dim.txt") as f:
 	Xpoints = cPickle.load(f)
 
 def main():
 
-	test = GMM(2, params = 'wmc', init_params='')
+	test = GMM(2, params = 'm', init_params='')
 	test.weights_ = np.array([0.5, 0.5])
 	test.covars_ = np.array([[1],[1]])
 	test.means_ =   0.5* np.random.normal(loc = 2.5, size=(2,1))
@@ -31,6 +31,7 @@ if __name__ == '__main__':
 		means[i] = np.array(main().T)
 	
 	print means
+
 	plt.plot(means.T[0], means.T[1],'o')
 	plt.show()
 

@@ -24,13 +24,13 @@ numMixtures = np.int32(2)
 
 
 
-def main(numRuns = 80):
+def main(inputDataLen = 16, numRuns = 80):
 
 
 	startTime = time.ctime()
 
 	#Generated data!!
-	with open("../FixedDataSet/Mean2,3;16pts;1dim.txt") as f:
+	with open("../FixedDataSet/Mean2,3;{}pts;1dim.txt".format(inputDataLen)) as f:
 		Xpoints = cPickle.load(f)
 
 
@@ -102,22 +102,25 @@ def main(numRuns = 80):
 
 	print "Pickling"
 
-	with open("../Data/Mean2,3;16pts;1dim;MCMCRes{}.txt".format(numRuns), 'w') as f:
+	with open("../Data/Mean2,3;{}pts;1dim;MCMCRes{}.txt".format(inputDataLen, numRuns), 'w') as f:
 		cPickle.dump(samples, f)
 
 
 
 	endTime = time.ctime()
 	print "Alerting Varun"
-	alertMe("\nStart: {}\nEnd: {}\nAcceptProb: {}\n".format(startTime, endTime, (1.0*acceptNum)/numRuns))
+	
+	if numRuns>=8000:
+		import sys
+		alertMe("\n{}\nStart: {}\nEnd: {}\nAcceptProb: {}\n".format(sys.argv, startTime, endTime, (1.0*acceptNum)/numRuns))
 
 
 if __name__ == '__main__':
 	import sys
 	
-	if len(sys.argv) == 2:
-		main(int(sys.argv[1]))
-		#We have a numRuns length
+	if len(sys.argv) == 3:
+		main(int(sys.argv[1]), int(sys.argv[2]))
+		#We have a input length and numRuns length
 	elif len(sys.argv)==1:
 		#run with default
 		main()
