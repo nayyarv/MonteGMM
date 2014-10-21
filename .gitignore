@@ -6,3 +6,4 @@ Data/Mean2,3;16pts;1dim;MCMCRes800.txt
 Data/Mean2,3;16pts;1dim;MCMCResOLD.txt
 
 Data/
+*.pyc
