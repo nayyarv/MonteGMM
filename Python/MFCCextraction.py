@@ -57,9 +57,6 @@ def audioFileYielder():
 
 
 def main():
-	w = Windowing(type = 'hann')	
-	spectrum = Spectrum()  # FFT() would return the complex FFT, here we just want the magnitude spectrum
-	mfcc = MFCC(inputSize= hopSize+1, numberBands = 17, sampleRate = sampleRate)
 
 	for speakerID, fileNum, audio in audioFileYielder():
 		#filter audio

@@ -36,10 +36,9 @@ def framesig(sig,frame_len,frame_step,winfunc=lambda x:numpy.ones((1,x))):
     frameVars =  numpy.var(frames, 1)
     # print frameVars
     frames = frames[numpy.where(frameVars>frameVars.mean()*0.01)]
-    print frameVars.mean()
-    print "Frame.Shape", frames.shape
-
-
+    # print frameVars.mean()
+    # print "Frame.Shape", frames.shape
+    print "Using Varun's modified version!"
 
     win = numpy.tile(winfunc(frames.shape[1]),(frames.shape[0],1))
 
