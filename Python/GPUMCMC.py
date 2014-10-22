@@ -54,7 +54,7 @@ weights_gpu = gpuarray.to_gpu_async(np.array([[0.5], [0.5]]).astype(np.float32))
 diagCovs_gpu = gpuarray.to_gpu_async(np.array([[1], [1]]).astype(np.float32))
 
 #output
-emptyLikelihood_gpu = gpuarray.zeros(shape = int(1), dtype = np.float32)
+emptyLikelihood_gpu = gpuarray.zeros(shape = int(5), dtype = np.float32)
 
 #allocate space
 means_gpu = gpuarray.zeros(shape = (int(numMixtures), int(dim)), dtype = np.float32)
