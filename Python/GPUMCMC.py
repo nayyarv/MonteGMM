@@ -32,7 +32,7 @@ import time
 
 inputDataLen = 256
 numPoints = inputDataLen/2
-numRuns = 80000
+numRuns = 800000
 
 
 
@@ -120,6 +120,7 @@ for k in xrange(numRuns):
 	samples[k] = (means.T[0]+0)
 
 print acceptNum, numRuns
+
 
 with open("../Data/Mean2,3_{}pts_1dim_MCMCRes{}.txt".format(inputDataLen, numRuns), 'w') as f:
 	cPickle.dump(samples, f)
