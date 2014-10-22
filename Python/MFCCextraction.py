@@ -7,6 +7,7 @@ import numpy as np
 from scipy import signal
 import os
 
+import cPickle
 
 
 
@@ -16,6 +17,7 @@ windowMS = 20
 frameSize = sampleRate*windowMS//(1000)
 overlapMs = 10
 hopSize = sampleRate*overlapMs//(1000)
+CleanedCorpus = "/Users/varunnayyar/Documents/Speech Stuff/LDC Cleaned"
 
 
 try:
@@ -32,7 +34,7 @@ except ValueError:
 	assert(len(emotionList)==5)
 
 
-def audioFileYielder():
+def audioFileReader():
 	print "Ready to scrape"
 
 	i=0
@@ -44,34 +46,40 @@ def audioFileYielder():
 		except ValueError:
 			print "No DS_Store, this try block was needed"
 			# Nothing to do
+		print "Currently doing: ", emotion
+
+		mfccDict = {}
 
 		for speechFile in emotionDir:
 			speakerID = speechFile.lstrip(emotion)[:3] #grab first 3 letters
 			fileNum = speechFile.lstrip(emotion+speakerID).lstrip("_").rstrip('.wav')
 			# print speakerID, fileNum, speechFile
-			# print os.path.join(CleanedCorpus, emotion, speechFile)
+			fileloc = os.path.join(CleanedCorpus, emotion, speechFile)
 			
 
-			yield speakerID, fileNum, audio
+			rate, sig = wav.read(fileloc)
+			sig=sig.astype(np.float32)
+			sig= 0.5*(sig.T[0]+sig.T[1]) # do a simple mix
+
+			mfcc_feat = mfcc(sig,rate, winlen = 0.02, winstep = 0.01, nfilt=17, ceplifter = 22, appendEnergy = True)
+
+			try:
+				mfccDict[speakerID].append(mfcc_feat)
+			except KeyError:
+				mfccDict[speakerID] = [mfcc_feat]
+
+		
+		for k,v in mfccDict.iteritems():
+			fileName = os.path.join("../MFCCData", emotion+"_"+k)
+			print "Writing to: ", fileName
+			with open(fileName, 'w') as f:
+				cPickle.dump(v, f)
+
 
 
 
 def main():
-
-	for speakerID, fileNum, audio in audioFileYielder():
-		#filter audio
-		preEmphaAudio = signal.lfilter([1 ,-1], [1], audio)
-
-		MFCCList = [] #Empty List for each file
-		
-		for frame in FrameGenerator(preEmphaAudio, frameSize = frameSize, hopSize = hopSize):
-
-			if frame.var()>=0.001: #threshold
-				mfcc_bands, mfcc_coeffs = mfcc(spectrum(w(frame)))
-				MFCCList.append(mfcc_coeffs)
-
-		#Now store the list somewhere
-
+	audioFileReader()
 
 
 

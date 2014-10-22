@@ -38,7 +38,7 @@ def framesig(sig,frame_len,frame_step,winfunc=lambda x:numpy.ones((1,x))):
     frames = frames[numpy.where(frameVars>frameVars.mean()*0.01)]
     # print frameVars.mean()
     # print "Frame.Shape", frames.shape
-    print "Using Varun's modified version!"
+    # print "Using Varun's modified version!"
 
     win = numpy.tile(winfunc(frames.shape[1]),(frames.shape[0],1))
 
