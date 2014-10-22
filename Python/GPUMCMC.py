@@ -20,7 +20,7 @@ except ImportError:
 	#Running on non cuda computer
 	pass #do other stuff
 	print "Import Error for PyCuda"
-	
+
 
 
 import numpy as np
@@ -48,6 +48,11 @@ except ValueError:
 numMixtures = 2
 
 Xpoints_gpu = gpuarray.to_gpu_async(Xpoints.astype(np.float32))
+
+Xpoints = np.random.normal(size=(inputDataLen,dim)).astype(np.float32)
+Xpoints_gpu = drv.mem_alloc(Xpoints.nbytes)
+drv.memcpy_htod(Xpoints_gpu,Xpoints)
+
 #quick transfer
 
 #fixed vals
@@ -84,7 +89,7 @@ for k in xrange(numRuns):
 
 	newMeans = means + proposal.reshape((numMixtures, dim))
 	
-	means_gpu.set_async(means)
+	# means_gpu.set_async(means)
 
 	likelihoodKernel.prepared_call((1,1), (256, 1,1),  
 	Xpoints_gpu, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
