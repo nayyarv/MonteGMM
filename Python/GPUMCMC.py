@@ -82,7 +82,7 @@ for k in xrange(numRuns):
 	
 	means_gpu.set_async(means)
 
-	likelihoodKernel.prepared_call((1,1), (inputDataLen, 1,1),  
+	likelihoodKernel.prepared_call((1,1), (256, 1,1),  
 	Xpoints_gpu, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
 	dim, numPoints, numMixtures,	
 	emptyLikelihood_gpu.gpudata)
