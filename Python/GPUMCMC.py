@@ -66,7 +66,7 @@ means = np.array([[2],[3]]).astype(np.float32)
 #means_gpu.set_async(means)
 
 
-oldLL = -10000
+oldLL = -1000
 newLL = 0
 samples = np.zeros((numRuns, 2))
 diagVal = 1
@@ -75,7 +75,7 @@ currentPos = 0
 
 for k in xrange(numRuns):
 	# if k%100==0:
-	print "At ", k, " iterations"
+	# print "At ", k, " iterations", 
 
 	proposal = np.random.multivariate_normal(mean = [0,0], cov = np.diag([diagVal, diagVal])).astype(np.float32)
 
@@ -88,7 +88,21 @@ for k in xrange(numRuns):
 	dim, numPoints, numMixtures,	
 	emptyLikelihood_gpu.gpudata)
 
-	print emptyLikelihood_gpu.get()
+	newll = emptyLikelihood_gpu.get()[0]
+
+	acceptProb = np.exp(newLL-oldLL)
+
+	if ( acceptProb>=1 or acceptProb>np.random.uniform()):
+		means = newMeans
+		oldLL = newLL
+		acceptNum+=1
+		print k, " A ", 
+	else:
+		print k, " R ", 
+
+	print newMeans, newLL, acceptProb
+
+	samples[k] = (means.T[0]+0)
 
 
 
