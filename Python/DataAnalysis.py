@@ -36,7 +36,7 @@ else:
 	plt.ylabel("$\mu_2$")
 	# plt.xlim((1,3.5))
 	# plt.ylim((1,3.5))
-	plt.hexbin(samples.T[0][burnIn::lag], samples.T[1][burnIn::lag], bins = 'log')
+	plt.hexbin(samples.T[0][burnIn::lag], samples.T[1][burnIn::lag], bins = 'log', cmap=plt.cm.Greys)
 
 
 	plt.show()

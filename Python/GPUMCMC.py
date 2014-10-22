@@ -49,7 +49,8 @@ Xpoints_gpu = gpuarray.to_gpu_async(Xpoints.astype(np.float32))
 
 #fixed vals
 diagCovs_gpu = gpuarray.to_gpu_async(np.array([[1],[1]]).astype(np.float32))
-weights_gpu = gpuarray.to_gpu_async(np.array([[0.5,0.5]]).astype(np.float32))
+weights = np.array([[0.5,0.5]]).astype(np.float32)
+weights_gpu = gpuarray.to_gpu_async(np.array(weights))
 
 #output
 emptyLikelihood_gpu = gpuarray.zeros(shape = int(1), dtype = np.float32)
@@ -65,7 +66,8 @@ means = np.array([[2],[3]]).astype(np.float32)
 
 oldLL = -1000
 newLL = 0
-samples = np.zeros((numRuns, 2))
+meanSamples = np.zeros((numRuns, 2))
+weightSamples = np.zeros((numRuns,2))
 diagVal = 0.8
 acceptNum = 0
 currentPos = 0
@@ -88,8 +90,14 @@ for k in xrange(numRuns):
 	proposal = np.random.multivariate_normal(mean = [0,0], cov = covMat).astype(np.float32)
 
 	newMeans = means + proposal.reshape((numMixtures, dim))
+
+	proposal = np.random.multivariate_normal(mean = [0,0], cov = 0.5* covNear).astype(np.float32)
+
+	newWeights = weights + proposal
 	
-	means_gpu.set(newMeans)#No Async on this one!
+	means_gpu.set(newMeans)
+	weights_gpu.set(newWeights)
+	#No Async on this one!
 
 	likelihoodKernel.prepared_call((1,1), (numpoints, 1,1),  
 	Xpoints_gpu.gpudata, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
@@ -104,6 +112,7 @@ for k in xrange(numRuns):
 
 	if ( acceptProb>=1 or acceptProb>np.random.uniform()):
 		means = newMeans
+		weights = newWeights
 		oldLL = newLL
 		acceptNum+=1
 		currentPos = 0
@@ -114,11 +123,12 @@ for k in xrange(numRuns):
 
 	# print newLL, acceptProb
 
-	samples[k] = (means.T[0]+0)
+	meanSamples[k] = (means.T[0]+0)
+	weightSamples[k] = (weights+0)
 
 print 1.0*acceptNum/numRuns
 
 with open("../Data/Mean2,3_{}pts_1dim_MCMCRes{}.txt".format(inputDataLen, numRuns), 'w') as f:
-	cPickle.dump(samples, f)
+	cPickle.dump((meanSamples, weightSamples), f)
 
 
