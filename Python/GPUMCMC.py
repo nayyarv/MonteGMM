@@ -88,7 +88,7 @@ for k in xrange(numRuns):
 	dim, numPoints, numMixtures,	
 	emptyLikelihood_gpu.gpudata)
 
-	newll = emptyLikelihood_gpu.get()[0]
+	newLL = emptyLikelihood_gpu.get()[0]
 
 	acceptProb = np.exp(newLL-oldLL)
 
