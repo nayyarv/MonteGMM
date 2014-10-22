@@ -81,7 +81,7 @@ for k in xrange(numRuns):
 
 	newMeans = means + proposal.reshape((numMixtures, dim))
 	
-	means_gpu.set_async(means)
+	means_gpu.set(newMeans)
 
 	likelihoodKernel.prepared_call((1,1), (256, 1,1),  
 	Xpoints_gpu.gpudata, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
