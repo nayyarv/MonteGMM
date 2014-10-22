@@ -7,7 +7,7 @@ try:
 	from pycuda.compiler import SourceModule
 
 
-	with open("KernelV2.cu") as f:
+	with open("../Cuda/KernelV2.cu") as f:
 		mod = SourceModule(f.read())
 
 	likelihoodKernel = mod.get_function("likelihoodKernel")
