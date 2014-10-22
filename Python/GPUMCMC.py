@@ -69,7 +69,7 @@ means = np.array([[2],[3]]).astype(np.float32)
 oldLL = -1000
 newLL = 0
 samples = np.zeros((numRuns, 2))
-diagVal = 1
+diagVal = 0.8
 acceptNum = 0
 currentPos = 0
 
@@ -92,17 +92,20 @@ for k in xrange(numRuns):
 
 	acceptProb = np.exp(newLL-oldLL)
 
+	print k, means.T[0], newMeans.T[0], 
+
 	if ( acceptProb>=1 or acceptProb>np.random.uniform()):
 		means = newMeans
 		oldLL = newLL
 		acceptNum+=1
-		print k, " A ", 
+		print " A ", 
 	else:
-		print k, " R ", 
+		print  " R ", 
 
-	print means.T[0], newMeans.T[0], newLL, acceptProb
+	print newLL, acceptProb
 
 	samples[k] = (means.T[0]+0)
 
+print acceptNum, numRuns
 
 
