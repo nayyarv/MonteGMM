@@ -4,8 +4,10 @@
 try:
 	import pycuda.driver as drv
 	import pycuda.autoinit
+	from pycuda import curandom
+	from pycuda import gpuarray
 	from pycuda.compiler import SourceModule
-
+	# from pycuda.tools import DeviceData
 
 	with open("../Cuda/KernelV2.cu") as f:
 		mod = SourceModule(f.read())
@@ -17,6 +19,8 @@ try:
 except ImportError:
 	#Running on non cuda computer
 	pass #do other stuff
+	print "Import Error for PyCuda"
+
 
 import numpy as np
 from scipy.stats import norm
