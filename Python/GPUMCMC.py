@@ -71,7 +71,7 @@ acceptNum = 0
 currentPos = 0
 
 diagNear = 0.2
-diagFar = 1.5
+diagFar = 1
 
 covFar = np.diag([diagFar,diagFar]).astype(np.float32)
 covNear = np.diag([diagNear,diagNear]).astype(np.float32)
@@ -89,7 +89,7 @@ for k in xrange(numRuns):
 
 	newMeans = means + proposal.reshape((numMixtures, dim))
 	
-	means_gpu.set(newMeans)
+	means_gpu.set(newMeans)#No Async on this one!
 
 	likelihoodKernel.prepared_call((1,1), (numpoints, 1,1),  
 	Xpoints_gpu.gpudata, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
@@ -116,8 +116,7 @@ for k in xrange(numRuns):
 
 	samples[k] = (means.T[0]+0)
 
-print acceptNum, numRuns
-
+print 1.0*acceptNum/numRuns
 
 with open("../Data/Mean2,3_{}pts_1dim_MCMCRes{}.txt".format(inputDataLen, numRuns), 'w') as f:
 	cPickle.dump(samples, f)

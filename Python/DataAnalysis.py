@@ -31,12 +31,12 @@ if acorrOnly:
 
 else:
 	plt.figure(tight_layout=True)
-	plt.title("$p(\\theta|x)$, {} points".format(numPoints))
+	plt.title("log $p(\\theta|x)$, {} points".format(numPoints))
 	plt.xlabel("$\mu_1$")
 	plt.ylabel("$\mu_2$")
 	# plt.xlim((1,3.5))
 	# plt.ylim((1,3.5))
-	plt.hexbin(samples.T[0][burnIn::lag], samples.T[1][burnIn::lag])
+	plt.hexbin(samples.T[0][burnIn::lag], samples.T[1][burnIn::lag], bins = 'log')
 
 
 	plt.show()
