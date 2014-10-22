@@ -100,7 +100,7 @@ for k in xrange(numRuns):
 	else:
 		print k, " R ", 
 
-	print newMeans, newLL, acceptProb
+	print means.T[0], newMeans.T[0], newLL, acceptProb
 
 	samples[k] = (means.T[0]+0)
 
