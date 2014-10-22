@@ -51,7 +51,7 @@ Xpoints_gpu = gpuarray.to_gpu_async(Xpoints.astype(np.float32))
 
 #fixed vals
 weights_gpu = gpuarray.to_gpu_async(np.array([[0.5], [0.5]]).astype(np.float32))
-covs_gpu = gpuarray.to_gpu_async(np.array([[1], [1]]).astype(np.float32))
+diagCovs_gpu = gpuarray.to_gpu_async(np.array([[1], [1]]).astype(np.float32))
 
 #output
 emptyLikelihood_gpu = gpuarray.zeros(shape = int(1), dtype = np.float32)
