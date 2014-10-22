@@ -1,3 +1,14 @@
+"""
+
+I write to a bunch of pickled files a list of mfccs
+The mfccs are in the numpy arrays of form [nframes, 13]
+and the list is for each utterance. For example we have 10 utterances
+len(obj) = 10
+obj[0].shape = (nframes, 13)
+
+"""
+
+
 from features import mfcc
 import scipy.io.wavfile as wav
 
