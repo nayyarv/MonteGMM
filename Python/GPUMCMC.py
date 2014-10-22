@@ -73,11 +73,21 @@ diagVal = 0.8
 acceptNum = 0
 currentPos = 0
 
+diagNear = 0.2
+diagFar = 1.5
+
+covFar = np.diag([diagFar,diagFar]).astype(np.float32)
+covNear = np.diag([diagNear,diagNear]).astype(np.float32)
+
 for k in xrange(numRuns):
 	# if k%100==0:
 	# print "At ", k, " iterations", 
+	if currentPos>1:
+		covMat = covNear
+	else:
+		covMat = covFar
 
-	proposal = np.random.multivariate_normal(mean = [0,0], cov = np.diag([diagVal, diagVal])).astype(np.float32)
+	proposal = np.random.multivariate_normal(mean = [0,0], cov = covMat).astype(np.float32)
 
 	newMeans = means + proposal.reshape((numMixtures, dim))
 	
@@ -92,17 +102,18 @@ for k in xrange(numRuns):
 
 	acceptProb = np.exp(newLL-oldLL)
 
-	print k, means.T[0], newMeans.T[0], 
+	# print k, means.T[0], newMeans.T[0], 
 
 	if ( acceptProb>=1 or acceptProb>np.random.uniform()):
 		means = newMeans
 		oldLL = newLL
 		acceptNum+=1
-		print " A ", 
-	else:
-		print  " R ", 
 
-	print newLL, acceptProb
+		# print " A ", 
+	else:
+		# print  " R ", 
+
+	# print newLL, acceptProb
 
 	samples[k] = (means.T[0]+0)
 
