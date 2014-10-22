@@ -48,19 +48,11 @@ except ValueError:
 numMixtures = 2
 
 Xpoints_gpu = gpuarray.to_gpu_async(Xpoints.astype(np.float32))
-
-Xpoints = np.random.normal(size=(inputDataLen,dim)).astype(np.float32)
-Xpoints_gpu = drv.mem_alloc(Xpoints.nbytes)
-drv.memcpy_htod(Xpoints_gpu,Xpoints)
-
 #quick transfer
 
 #fixed vals
-numGen = curandom.MRG32k3aRandomNumberGenerator()
-diagCovs_gpu = numGen.gen_uniform(shape=(int(numMixtures),int(dim)), dtype = np.float32)+1
-
-weights_gpu = numGen.gen_uniform(shape=int(numMixtures), dtype = np.float32)
-weights_gpu /= gpuarray.sum(weights_gpu).get()
+diagCovs_gpu = gpuarray.to_gpu_async(np.array([[1],[1]]).astype(np.float32))
+weights_gpu = gpuarray.to_gpu_async(np.array([[0.5,0.5]]).astype(np.float32))
 
 #output
 emptyLikelihood_gpu = gpuarray.zeros(shape = int(5), dtype = np.float32)
@@ -89,10 +81,10 @@ for k in xrange(numRuns):
 
 	newMeans = means + proposal.reshape((numMixtures, dim))
 	
-	# means_gpu.set_async(means)
+	means_gpu.set_async(means)
 
 	likelihoodKernel.prepared_call((1,1), (256, 1,1),  
-	Xpoints_gpu, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
+	Xpoints_gpu.gpudata, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
 	dim, numPoints, numMixtures,	
 	emptyLikelihood_gpu.gpudata)
 
