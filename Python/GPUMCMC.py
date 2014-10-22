@@ -46,12 +46,12 @@ except ValueError:
 
 numMixtures = 2
 
-Xpoints_gpu = gpuArray.to_gpu_async(Xpoints.astype(np.float32))
+Xpoints_gpu = gpuarray.to_gpu_async(Xpoints.astype(np.float32))
 #quick transfer
 
 #fixed vals
-weights_gpu = gpuArray.to_gpu_async(np.array([[0.5], [0.5]]).astype(np.float32))
-covs_gpu = gpuArray.to_gpu_async(np.array([[1], [1]]).astype(np.float32))
+weights_gpu = gpuarray.to_gpu_async(np.array([[0.5], [0.5]]).astype(np.float32))
+covs_gpu = gpuarray.to_gpu_async(np.array([[1], [1]]).astype(np.float32))
 
 #output
 emptyLikelihood_gpu = gpuarray.zeros(shape = int(1), dtype = np.float32)
@@ -73,8 +73,8 @@ acceptNum = 0
 currentPos = 0
 
 for k in xrange(numRuns):
-	if k%100==0:
-		print "At ", k, " iterations"
+	# if k%100==0:
+	print "At ", k, " iterations"
 
 	proposal = np.random.multivariate_normal(mean = [0,0], cov = np.diag([diagVal, diagVal])).astype(np.float32)
 
