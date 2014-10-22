@@ -81,7 +81,7 @@ covNear = np.diag([diagNear,diagNear]).astype(np.float32)
 
 for k in xrange(numRuns):
 	if k%100==0:
-		print "At ", k, " iterations", 
+		print "At ", k, " iterations" 
 	
 	if currentPos>1:
 		covMat = covNear
