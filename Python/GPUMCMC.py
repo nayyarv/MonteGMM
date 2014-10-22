@@ -31,10 +31,7 @@ import time
 
 
 inputDataLen = 256
-numPoints = inputDataLen/2
 numRuns = 800000
-
-
 
 with open("../FixedDataSet/Mean2,3;{}pts;1dim.txt".format(inputDataLen)) as f:
 	Xpoints = cPickle.load(f).astype(np.float32)
@@ -94,9 +91,9 @@ for k in xrange(numRuns):
 	
 	means_gpu.set(newMeans)
 
-	likelihoodKernel.prepared_call((1,1), (256, 1,1),  
+	likelihoodKernel.prepared_call((1,1), (numpoints, 1,1),  
 	Xpoints_gpu.gpudata, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
-	dim, numPoints, numMixtures,	
+	dim, numpoints, numMixtures,	
 	emptyLikelihood_gpu.gpudata)
 
 	newLL = emptyLikelihood_gpu.get()[0]

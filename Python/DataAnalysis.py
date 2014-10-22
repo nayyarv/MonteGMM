@@ -4,13 +4,15 @@ import numpy as np
 
 print "Starting"
 
-with open("../Data/Mean2,3_256pts_1dim_MCMCRes80000.txt") as f:
+numPoints = 256
+
+with open("../Data/Mean2,3_{}pts_1dim_MCMCRes800000.txt".format(numPoints)) as f:
 	samples  = cPickle.load(f)
 
 print "Finished Pickling"
 
 # print samples
-burnIn  = 100
+burnIn  = 1000
 endPoint = 100000
 lag  = 50
 
@@ -28,8 +30,12 @@ if acorrOnly:
 	plt.show()
 
 else:
-	plt.figure()
-
+	plt.figure(tight_layout=True)
+	plt.title("$p(\\theta|x)$, {} points".format(numPoints))
+	plt.xlabel("$\mu_1$")
+	plt.ylabel("$\mu_2$")
+	# plt.xlim((1,3.5))
+	# plt.ylim((1,3.5))
 	plt.hexbin(samples.T[0][burnIn::lag], samples.T[1][burnIn::lag])
 
 
