@@ -32,7 +32,7 @@ import time
 
 inputDataLen = 256
 numPoints = inputDataLen/2
-numRuns = 1000
+numRuns = 5000
 
 
 
@@ -80,8 +80,9 @@ covFar = np.diag([diagFar,diagFar]).astype(np.float32)
 covNear = np.diag([diagNear,diagNear]).astype(np.float32)
 
 for k in xrange(numRuns):
-	# if k%100==0:
-	# print "At ", k, " iterations", 
+	if k%100==0:
+		print "At ", k, " iterations", 
+	
 	if currentPos>1:
 		covMat = covNear
 	else:
@@ -108,9 +109,10 @@ for k in xrange(numRuns):
 		means = newMeans
 		oldLL = newLL
 		acceptNum+=1
-
+		currentPos = 0
 		# print " A ", 
 	else:
+		currentPos+=1
 		# print  " R ", 
 
 	# print newLL, acceptProb

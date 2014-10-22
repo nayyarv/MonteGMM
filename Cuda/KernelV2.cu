@@ -86,7 +86,7 @@ __global__ void likelihoodKernel(float *Xpoints, float *means, float *diagCovs, 
 	//TODO: Speed up computation by having a block per mixture? If possible, also allows for marginal updates
 
 
-	if (threadIndex<numPoints)
+	if (index<numPoints) //Check that we're in bounds!
 	{
 		// Just make sure we have stuff to compute
 		//Will contain the id of the x value
