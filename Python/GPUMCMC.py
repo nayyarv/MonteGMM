@@ -20,6 +20,7 @@ except ImportError:
 	#Running on non cuda computer
 	pass #do other stuff
 	print "Import Error for PyCuda"
+	
 
 
 import numpy as np
@@ -50,8 +51,11 @@ Xpoints_gpu = gpuarray.to_gpu_async(Xpoints.astype(np.float32))
 #quick transfer
 
 #fixed vals
-weights_gpu = gpuarray.to_gpu_async(np.array([[0.5], [0.5]]).astype(np.float32))
-diagCovs_gpu = gpuarray.to_gpu_async(np.array([[1], [1]]).astype(np.float32))
+numGen = curandom.MRG32k3aRandomNumberGenerator()
+diagCovs_gpu = numGen.gen_uniform(shape=(int(numMixtures),int(dim)), dtype = np.float32)+1
+
+weights_gpu = numGen.gen_uniform(shape=int(numMixtures), dtype = np.float32)
+weights_gpu /= gpuarray.sum(weights_gpu).get()
 
 #output
 emptyLikelihood_gpu = gpuarray.zeros(shape = int(5), dtype = np.float32)
