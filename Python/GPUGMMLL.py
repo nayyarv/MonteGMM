@@ -44,7 +44,7 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 	diagCovs_gpu = gpuarray.to_gpu_async(diagCovs)
 	means_gpu = gpuarray.to_gpu_async(means)
 	weights_gpu = gpuarray.to_gpu_async(weights)
-	emptyLikelihood_gpu = gpuarray.zeros(shape = int(1), dtype = np.float32)
+	emptyLikelihood_gpu = gpuarray.zeros(shape = int(numBlocks), dtype = np.float32)
 
 
 
@@ -56,7 +56,7 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 		Xpoints_gpu.gpudata, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
 		dim, numPoints, numMixtures,	
 		emptyLikelihood_gpu.gpudata)
-		ll = emptyLikelihood_gpu.get()[0]
+		ll = emptyLikelihood_gpu.sum().get()
 
 		print ll
 
@@ -65,5 +65,5 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 
 
 if __name__ == '__main__':
-	largertest(numRuns = 1000, numPoints = 1024, dim = 13, numMixtures = 8)
+	largertest(numRuns = 1000, numPoints = 2048, dim = 13, numMixtures = 8)
 
