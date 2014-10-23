@@ -51,6 +51,16 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 	for i in xrange(numRuns):
 		if i%100==0: 
 			print "At {} iterations".format(i)
+
+		means = np.random.normal(size=(numMixtures,dim)).astype(np.float32)
+		diagCovs = np.random.uniform(size=(numMixtures,dim)).astype(np.float32)
+		weights = np.random.uniform(size=numMixtures).astype(np.float32)
+		weights/=np.sum(weights)
+
+		diagCovs_gpu = gpuarray.to_gpu_async(diagCovs)
+		means_gpu = gpuarray.to_gpu_async(means)
+		weights_gpu = gpuarray.to_gpu_async(weights)
+		
 			
 		likelihoodKernel.prepared_call((numBlocks,1), (numThreads, 1,1),  
 		Xpoints_gpu.gpudata, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
@@ -60,8 +70,8 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 
 	print ll
 
-	tp =  pythonLL(Xpoints, means, diagCovs, weights)
-	print "Correct value: ", tp
+	# tp =  pythonLL(Xpoints, means, diagCovs, weights)
+	# print "Correct value: ", tp
 
 
 if __name__ == '__main__':
