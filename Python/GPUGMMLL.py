@@ -3,7 +3,7 @@ import pycuda.autoinit
 from pycuda import gpuarray
 from pycuda.compiler import SourceModule
 # from pycuda.tools import DeviceData
-
+import numpy as np
 
 #prepare for global usage
 
@@ -54,11 +54,6 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 		print ll
 
 
-
-
-def main():
-	largertest(numRuns = 100, numPoints = 512, dim = 13, numMixtures = 8)
-
 if __name__ == '__main__':
-	main()
+	largertest(numRuns = 100, numPoints = 512, dim = 13, numMixtures = 8)
 
