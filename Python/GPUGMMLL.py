@@ -56,7 +56,7 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 		Xpoints_gpu.gpudata, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
 		dim, numPoints, numMixtures,	
 		emptyLikelihood_gpu.gpudata)
-		ll = emptyLikelihood_gpu.sum().get()
+		ll = np.sum(emptyLikelihood_gpu.get())
 
 		print ll
 
@@ -65,5 +65,16 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 
 
 if __name__ == '__main__':
-	largertest(numRuns = 1000, numPoints = 2048, dim = 13, numMixtures = 8)
+		import sys
+	if len(sys.argv) == 3:
+		largertest(numRuns = int(sys.argv[1]), numPoints = int(sys.argv[2]), dim = 13, numMixtures = 8)
+		# main(, )
+		#We have a input length and numRuns length
+	elif len(sys.argv)==2:
+		largertest(numRuns = 1000, numPoints = int(sys.argv[1]), dim = 13, numMixtures = 8)
+	elif len(sys.argv)==1:
+		#run with default
+		largertest(numRuns = 1000, numPoints = 64, dim = 13, numMixtures = 8)
+	else:
+		print "Failure"
 
