@@ -15,12 +15,14 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 	with open("../Cuda/KernelV2.cu") as f:
 		if numPoints>=1024:
 			mod = SourceModule(f.read().replace('512', '1024'))
+			numThreads = 1024
 		else:
 			mod = SourceModule(f.read())
+			numThreads = 512
 
-	if numPoints>1024:
-		numBlocks = numPoints/1024
-		if numPoints%1024 != 0: numBlocks+=1
+	if numPoints>numThreads:
+		numBlocks = numPoints/numThreads
+		if numPoints%numThreads != 0: numBlocks+=1
 	else:
 		numBlocks=1
 
@@ -45,7 +47,7 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 
 	for i in xrange(numRuns):
 		if i%10==0: print "At {} iterations".format(i)
-		likelihoodKernel.prepared_call(2, (numPoints, 1,1),  
+		likelihoodKernel.prepared_call((numBlocks,1), (numThreads, 1,1),  
 		Xpoints_gpu.gpudata, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
 		dim, numPoints, numMixtures,	
 		emptyLikelihood_gpu.gpudata)
