@@ -42,6 +42,12 @@ except ValueError:
 	numpoints = Xpoints.shape[0]
 	dim = 1
 
+
+numPoints = 1024
+
+Xpoints = 
+
+
 numMixtures = 2
 
 Xpoints_gpu = gpuarray.to_gpu_async(Xpoints.astype(np.float32))

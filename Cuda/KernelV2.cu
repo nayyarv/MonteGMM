@@ -7,15 +7,18 @@
 
 #define PI 3.1415926536
 
-__device__ float normalDistribution(float* x, float* mu, float* diagonalCovariance, unsigned int dim){
+__device__ float normalDistribution(float* x, float* mu, 
+	float* diagonalCovariance, unsigned int dim){
 	/*
 	x:  individual point being evaluated, x[dim]
 	mu: mean of the normal distribution being evaluated  mu[dim]
 	diagonalCovariance: for the norm dist  diagonalCovariance[dim]
 	
-	dim: dimensionality of the distribution, also equal to length of the previous vectors
+	dim: dimensionality of the distribution, also 
+	equal to length of the previous vectors
 
-	Evaluates the normalDistribution on the GPU, for diagonal Covariance Matrices only.
+	Evaluates the normalDistribution on the GPU, for 
+	diagonal Covariance Matrices only.
 
 	*/
 	float total = 0;
@@ -30,7 +33,8 @@ __device__ float normalDistribution(float* x, float* mu, float* diagonalCovarian
 		temp *= temp; // Square it
 		total += temp / diagonalCovariance[i];
 		//Note this is the stuff that goes inside the normal
-		det *= diagonalCovariance[i]; //TODO: replace with memory implementation instead?
+		det *= diagonalCovariance[i]; 
+		//TODO: replace with memory implementation instead?
 	}
 
 	
@@ -46,7 +50,8 @@ __device__ float normalDistribution(float* x, float* mu, float* diagonalCovarian
 }
 
 
-__global__ void likelihoodKernel(float *Xpoints, float *means, float *diagCovs, float *weights, 
+__global__ void likelihoodKernel(float *Xpoints, float *means, float *diagCovs, 
+	float *weights, 
 	unsigned int dim, unsigned int numPoints, unsigned int numMixtures, 
 	float* finalLikelihood)
 {
@@ -127,7 +132,8 @@ __global__ void likelihoodKernel(float *Xpoints, float *means, float *diagCovs, 
 	}
 
 
-	if (threadIndex==0) //Since everything has been synced, sarray[0] now holds our result
+	if (threadIndex==0) 
+	//Since everything has been synced, sarray[0] now holds our result
 	{
 		finalLikelihood[blockIdx.x] = sarray[0];
 	}

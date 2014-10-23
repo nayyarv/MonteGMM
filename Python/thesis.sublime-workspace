@@ -4,16 +4,148 @@
 		"selected_items":
 		[
 			[
+				"Em",
+				"EMSpread"
+			],
+			[
+				"EM",
+				"EMComparisonToy  (module)"
+			],
+			[
+				"em",
+				"EMmeans"
+			],
+			[
+				"num",
+				"numPoints"
+			],
+			[
+				"we",
+				"weights"
+			],
+			[
+				"new",
+				"newWeights"
+			],
+			[
+				"nu",
+				"numpoints"
+			],
+			[
+				"fo",
+				"format  (function)"
+			],
+			[
+				"cur",
+				"currentPos"
+			],
+			[
+				"co",
+				"covMat"
+			],
+			[
+				"cov",
+				"covNear"
+			],
+			[
+				"dia",
+				"diagNear"
+			],
+			[
+				"di",
+				"diagNear"
+			],
+			[
+				"acce",
+				"acceptNum"
+			],
+			[
+				"set",
+				"set_async"
+			],
+			[
+				"prop",
+				"proposal"
+			],
+			[
+				"fi",
+				"fileName"
+			],
+			[
+				"fien",
+				"fileName"
+			],
+			[
+				"mfcc",
+				"mfccDict"
+			],
+			[
+				"iter",
+				"iteritems  (function)"
+			],
+			[
+				"mf",
+				"mfccDict"
+			],
+			[
+				"mfc",
+				"mfccDict"
+			],
+			[
+				"fra",
+				"frame"
+			],
+			[
+				"MFCC",
+				"MFCCList"
+			],
+			[
+				"fil",
+				"fileNum"
+			],
+			[
+				"sp",
+				"speakerID"
+			],
+			[
+				"aud",
+				"audioFileYielder"
+			],
+			[
+				"spe",
+				"speechFile"
+			],
+			[
+				"emo",
+				"emotion"
+			],
+			[
+				"pa",
+				"path  (module)"
+			],
+			[
+				"Clea",
+				"CleanedCorpus"
+			],
+			[
+				"fram",
+				"frameSize"
+			],
+			[
+				"sam",
+				"sampleRate"
+			],
+			[
+				"in",
+				"inputDataLen"
+			],
+			[
 				"w",
 				"weights_"
 			],
 			[
 				"py",
 				"pyplot  (module)"
-			],
-			[
-				"nu",
-				"numRuns"
 			],
 			[
 				"if",
@@ -44,20 +176,8 @@
 				"acceptNum"
 			],
 			[
-				"dia",
-				"diagVal"
-			],
-			[
-				"prop",
-				"proposalFunc"
-			],
-			[
 				"prp",
 				"proposalFunc"
-			],
-			[
-				"num",
-				"numMixtures"
 			],
 			[
 				"Xp",
@@ -86,14 +206,6 @@
 			[
 				"lik",
 				"likelihoodKernel"
-			],
-			[
-				"di",
-				"diagCovs_gpu"
-			],
-			[
-				"em",
-				"emptyLikelihood_gpu"
 			],
 			[
 				"means",
@@ -138,10 +250,6 @@
 			[
 				"like",
 				"Likelihood"
-			],
-			[
-				"fo",
-				"for	For Loop"
 			],
 			[
 				"thread",
@@ -251,9 +359,21 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 392.0,
+		"height": 287.0,
 		"selected_items":
 		[
+			[
+				"Package Control: ",
+				"Package Control: Disable Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
 			[
 				"packa",
 				"Package Control: Install Package"
@@ -310,16 +430,29 @@
 	},
 	"file_history":
 	[
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/EMComparisonToy.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/DataAnalysis.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/MCMC.py",
+		"/usr/local/lib/python2.7/site-packages/matplotlib/mpl-data/stylelib/ggplot.mplstyle",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/GPUMCMC.py",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Monte Carlo/Report/KernelV2.cu",
+		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Monte Carlo/Report/Report.tex",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/GPUArrays.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Cuda/KernelV2.cu",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/MFCCextraction.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/MFCCAlt.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/MFCC.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/features/base.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/features/sigproc.py",
+		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/wavreading.py",
+		"/usr/local/Cellar/python/2.7.8/Frameworks/Python.framework/Versions/2.7/lib/python2.7/wave.py",
 		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/emailScripy.py",
 		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/thesis.sublime-workspace",
-		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/MCMC.py",
 		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/DataGenerator.py",
-		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/DataAnalysis.py",
 		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/EMComparison.py",
 		"/Users/varunnayyar/.gitconfig",
 		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/BayesInference.py",
 		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/EMinference.py",
-		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/GPUArrays.py",
 		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/EMComparison",
 		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/thesis.sublime-project",
 		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/DataGenerator",
@@ -339,7 +472,6 @@
 		"/usr/local/lib/python2.7/site-packages/matplotlib/style/core.py",
 		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Ethics/Report/Ref.bib",
 		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Ethics/Seminar 1/Chris P1.txt",
-		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Cuda/KernelV2.cu",
 		"/Users/varunnayyar/Dropbox/Cuda Code/MonteGMM/Python/test2.py",
 		"/Users/varunnayyar/Dropbox/Cuda Code/PyCuda/test2.py",
 		"/Users/varunnayyar/Dropbox/Cuda Code/PyCuda/test1.py",
@@ -384,7 +516,6 @@
 		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Ethics/Seminar 2/Abog",
 		"/Users/varunnayyar/Dropbox/Cuda Code/Final Code/untitled",
 		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Open Day/Buffon Writeup/Poster/monte.txt",
-		"/usr/local/lib/python2.7/site-packages/matplotlib/mpl-data/stylelib/ggplot.mplstyle",
 		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 2/Open Day/buffon.R",
 		"/usr/local/lib/python2.7/site-packages/matplotlib/mpl-data/stylelib/bmh.mplstyle",
 		"/usr/local/lib/python2.7/site-packages/matplotlib/mpl-data/stylelib/pretty.mplstyle",
@@ -426,18 +557,7 @@
 		"/Users/varunnayyar/Desktop/Thesis COmments",
 		"/Users/varunnayyar/Desktop/UNSW Workstation",
 		"/Users/varunnayyar/Dropbox/Uni Work/2014, Sem 1/Thesis/Report/ThesisAReport.lyx",
-		"/Users/varunnayyar/IdeaProjects/defzoom.css",
-		"/Volumes/SANSA CLIPP/MUSIC/Classical Music.m3u",
-		"/Users/varunnayyar/IdeaProjects/Mp3Syncer/sync.sh",
-		"/Users/varunnayyar/Library/Application Support/Sublime Text 3/Packages/User/Bash.sublime-build",
-		"/Users/varunnayyar/IdeaProjects/Mp3Syncer/Top 50 Most Played.m3u",
-		"/Users/varunnayyar/IdeaProjects/pythonReading/portFun.py",
-		"/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/subprocess.py",
-		"/opt/local/share/texmf-texlive/doc/latex/latex2e-help-texinfo-spanish/latex2e-es.txt",
-		"/Users/varunnayyar/Downloads/flat.icns-1.0/README.md",
-		"/Users/varunnayyar/Documents/Cochlear/vnayyar_macbookpro-af9d_1721/dsp/Projects/AutoNRT/Pickle/RelativeBotrosTailNoise.txt",
-		"/Users/varunnayyar/Documents/A Pre-exam Party Menu",
-		"/Users/varunnayyar/Downloads/exam-marks (1).svg"
+		"/Users/varunnayyar/IdeaProjects/defzoom.css"
 	],
 	"find":
 	{
@@ -452,9 +572,18 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"samples",
+			"inputDataLen",
+			"numpoints",
+			"numPoints",
+			"256",
+			"numPoints",
+			";",
+			"gpuArray",
+			"512",
 			"100",
 			"200",
 			"  ",
@@ -559,6 +688,10 @@
 		"regex": true,
 		"replace_history":
 		[
+			"meanSamples",
+			"numpoints",
+			"_",
+			"gpuarray",
 			"burnIn",
 			",",
 			"\\n",
