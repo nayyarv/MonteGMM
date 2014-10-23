@@ -60,8 +60,8 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 
 		print ll
 
-	tp =  pythonLL(Xpoints, means, diagCovs, weights)
-	print "Correct value: ", tp
+	# tp =  pythonLL(Xpoints, means, diagCovs, weights)
+	# print "Correct value: ", tp
 
 
 if __name__ == '__main__':
