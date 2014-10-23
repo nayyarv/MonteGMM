@@ -49,7 +49,7 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 
 
 	for i in xrange(numRuns):
-		if i%10==0: 
+		if i%100==0: 
 			print "At {} iterations".format(i)
 			
 		likelihoodKernel.prepared_call((numBlocks,1), (numThreads, 1,1),  
@@ -58,7 +58,7 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 		emptyLikelihood_gpu.gpudata)
 		ll = np.sum(emptyLikelihood_gpu.get())
 
-		print ll
+		# print ll
 
 	# tp =  pythonLL(Xpoints, means, diagCovs, weights)
 	# print "Correct value: ", tp
