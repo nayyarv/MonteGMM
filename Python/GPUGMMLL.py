@@ -4,7 +4,7 @@ from pycuda import gpuarray
 from pycuda.compiler import SourceModule
 # from pycuda.tools import DeviceData
 import numpy as np
-from pythonGMMLL import pythonLLScipy
+from pythonGMMLL import pythonLL
 
 #prepare for global usage
 
