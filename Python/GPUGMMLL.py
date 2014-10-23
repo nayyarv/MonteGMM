@@ -43,7 +43,7 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 	weights_gpu = gpuarray.to_gpu_async(weights)
 	emptyLikelihood_gpu = gpuarray.zeros(shape = int(1), dtype = np.float32)
 
-	for x in xrange(numRuns):
+	for i in xrange(numRuns):
 		if i%10==0: print "At {} iterations".format(i)
 		likelihoodKernel.prepared_call((numBlocks,1), (numPoints, 1,1),  
 		Xpoints_gpu.gpudata, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
