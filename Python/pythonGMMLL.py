@@ -1,12 +1,6 @@
 import numpy as np
 from scipy.stats import norm
 
-
-
-
-
-
-
 def pythonLL(Xpoints, means, diagCovs, weights):
 	numPoints, dim = Xpoints.shape
 	numMixtures = len(weights)
@@ -76,8 +70,8 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 		weights/=np.sum(weights)
 	
 		tp  =pythonLLScipy(Xpoints, means, diagCovs, weights)
-		tp2 = pythonLL(Xpoints, means, diagCovs, weights)
-		print tp, tp2, tp-tp2
+		# tp2 = pythonLL(Xpoints, means, diagCovs, weights)
+		# print tp, tp2, tp-tp2
 
 if __name__ == '__main__':
-	largertest(numRuns = 10, numPoints = 512, dim = 13, numMixtures = 8)
+	largertest(numRuns = 1000, numPoints = 16, dim = 13, numMixtures = 8)

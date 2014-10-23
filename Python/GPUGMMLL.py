@@ -65,5 +65,5 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 
 
 if __name__ == '__main__':
-	largertest(numRuns = 1000, numPoints = 2048, dim = 13, numMixtures = 8)
+	largertest(numRuns = 1000, numPoints = 1024, dim = 13, numMixtures = 8)
 
