@@ -4,6 +4,7 @@ from pycuda import gpuarray
 from pycuda.compiler import SourceModule
 # from pycuda.tools import DeviceData
 import numpy as np
+from pythonGMMLL import pythonLLScipy
 
 #prepare for global usage
 
@@ -46,7 +47,9 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 	emptyLikelihood_gpu = gpuarray.zeros(shape = int(1), dtype = np.float32)
 
 	for i in xrange(numRuns):
-		if i%10==0: print "At {} iterations".format(i)
+		if i%10==0: 
+			print "At {} iterations".format(i)
+			print pythonLLScipy(Xpoints, means, diagCovs, weights)
 		likelihoodKernel.prepared_call((numBlocks,1), (numThreads, 1,1),  
 		Xpoints_gpu.gpudata, means_gpu.gpudata, diagCovs_gpu.gpudata, weights_gpu.gpudata, 
 		dim, numPoints, numMixtures,	
