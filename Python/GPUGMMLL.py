@@ -65,7 +65,7 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 
 
 if __name__ == '__main__':
-		import sys
+	import sys
 	if len(sys.argv) == 3:
 		largertest(numRuns = int(sys.argv[1]), numPoints = int(sys.argv[2]), dim = 13, numMixtures = 8)
 		# main(, )
