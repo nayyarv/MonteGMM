@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.stats import multivariate_normal, norm
+from scipy.stats import norm
 
 
 
@@ -13,7 +13,7 @@ def pythonLL(Xpoints, means, diagCovs, weights):
 
 	ll = np.zeros(numPoints)
 
-	constMulti = numMixtures/2.0 * np.log(2*np.pi)
+	constMulti = dim/2.0 * np.log(2*np.pi)
 
 	CovDet = np.zeros(numMixtures)
 	
@@ -43,6 +43,7 @@ def pythonLL(Xpoints, means, diagCovs, weights):
 
 
 def pythonLLScipy(Xpoints, means, diagCovs,weights):
+	from scipy.stats import multivariate_normal
 	
 	numPoints, dim = Xpoints.shape
 	numMixtures = len(weights)
@@ -69,13 +70,14 @@ def largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8):
 
 	for i in xrange(numRuns):
 		if i%10==0: print "At {} iterations".format(i)
-		# means = np.random.normal(size=(numMixtures,dim)).astype(np.float32)
-		# diagCovs = np.random.uniform(size=(numMixtures,dim)).astype(np.float32)
-		# weights = np.random.uniform(size=numMixtures).astype(np.float32)
-		# weights/=np.sum(weights)
+		means = np.random.normal(size=(numMixtures,dim)).astype(np.float32)
+		diagCovs = np.random.uniform(size=(numMixtures,dim)).astype(np.float32)
+		weights = np.random.uniform(size=numMixtures).astype(np.float32)
+		weights/=np.sum(weights)
 	
 		tp  =pythonLLScipy(Xpoints, means, diagCovs, weights)
-		# print tp
+		tp2 = pythonLL(Xpoints, means, diagCovs, weights)
+		print tp, tp2, tp-tp2
 
 if __name__ == '__main__':
-	largertest(numRuns = 1000, numPoints = 512, dim = 13, numMixtures = 8)
+	largertest(numRuns = 10, numPoints = 512, dim = 13, numMixtures = 8)
