@@ -91,12 +91,12 @@ for k in xrange(numRuns):
 
 	newMeans = means + proposal.reshape((numMixtures, dim))
 
-	proposal = np.random.multivariate_normal(mean = [0,0], cov = 0.5* covNear).astype(np.float32)
+	# proposal = np.random.multivariate_normal(mean = [0,0], cov = 0.5* covNear).astype(np.float32)
 
-	newWeights = weights + proposal
+	# newWeights = weights + proposal
 	
 	means_gpu.set(newMeans)
-	weights_gpu.set(newWeights)
+	# weights_gpu.set(newWeights)
 	#No Async on this one!
 
 	likelihoodKernel.prepared_call((1,1), (numpoints, 1,1),  
@@ -108,7 +108,9 @@ for k in xrange(numRuns):
 
 	acceptProb = np.exp(newLL-oldLL)
 
+
 	# print k, means.T[0], newMeans.T[0], 
+
 
 	if ( acceptProb>=1 or acceptProb>np.random.uniform()):
 		means = newMeans
@@ -124,11 +126,11 @@ for k in xrange(numRuns):
 	# print newLL, acceptProb
 
 	meanSamples[k] = (means.T[0]+0)
-	weightSamples[k] = (weights+0)
+	# weightSamples[k] = (weights+0)
 
 print 1.0*acceptNum/numRuns
 
 with open("../Data/Mean2,3_{}pts_1dim_MCMCRes{}.txt".format(inputDataLen, numRuns), 'w') as f:
-	cPickle.dump((meanSamples, weightSamples), f)
+	cPickle.dump(meanSamples, f)
 
 
