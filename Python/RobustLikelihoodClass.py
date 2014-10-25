@@ -106,7 +106,7 @@ class GPULL(LikelihoodEvaluator):
         self.diagCovs_gpu = gpuarray.zeros(shape = (self.numMixtures, self.dim), dtype = np.float32)
         self.weights_gpu = gpuarray.zeros(shape = self.numMixtures, dtype = np.float32)
 
-        self.llVal = gpuarray.zeros(shape = self.numBlocks)
+        self.llVal = gpuarray.zeros(shape = self.numBlocks,  dtype=np.float32)
 
         #Allocate Memory for all our computations
 
@@ -129,7 +129,7 @@ class GPULL(LikelihoodEvaluator):
         #quick sanity checks
         self.means_gpu.set_async(means)
         self.diagCovs_gpu.set_async(diagCovs)
-        self.weights_gpu.set_async(weights)
+        self.weights_gpu.set(weights)
 
         self.likelihoodKernel.prepared_call((self.numBlocks, 1), (self.numThreads, 1, 1),
                                        self.Xpoints.gpudata, self.means_gpu.gpudata, self.diagCovs_gpu.gpudata,

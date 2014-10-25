@@ -7,3 +7,5 @@ Data/Mean2,3;16pts;1dim;MCMCResOLD.txt
 
 Data/
 *.pyc
+
+Python/.idea/workspace.xml
