@@ -1,1 +1,1 @@
-#Now with frequentism
+# Now with frequentism

@@ -3,10 +3,11 @@ import pycuda.autoinit
 from pycuda.compiler import SourceModule
 
 import numpy
-a = numpy.random.randn(4,4).astype(numpy.float32)
+
+a = numpy.random.randn(4, 4).astype(numpy.float32)
 a_gpu = cuda.mem_alloc(a.nbytes)
 
-cuda.memcpy_htod(a_gpu,a)
+cuda.memcpy_htod(a_gpu, a)
 
 mod = SourceModule("""
   __global__ void doublify(float *a)
@@ -17,7 +18,7 @@ mod = SourceModule("""
   """)
 
 func = mod.get_function("doublify")
-func(a_gpu, block=(4,4,1))
+func(a_gpu, block=(4, 4, 1))
 
 a_doubled = numpy.empty_like(a)
 cuda.memcpy_dtoh(a_doubled, a_gpu)
