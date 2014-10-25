@@ -4,36 +4,34 @@ import numpy as np
 
 
 class LikelihoodEvaluator():
-    def __init__(self, Xpoints):
+    def __init__(self, Xpoints, numMixtures):
         assert(Xpoints.ndim==2)
 
         self.Xpoints = Xpoints
         self.numPoints, self.dim = Xpoints.shape
+        self.numMixtures = numMixtures
 
 
 
 
 class SingleCoreLL(LikelihoodEvaluator):
 
-    def __init__(self, Xpoints):
+    def __init__(self, Xpoints, numMixtures):
         print "Single Core Implementation Chosen"
-        LikelihoodEvaluator.__init__(self, Xpoints)
-        import time
+        LikelihoodEvaluator.__init__(self, Xpoints, numMixtures)
 
     def __str__(self):
-        print self.time.ctime()
         return "Single Core Implementation"
 
 
-    def LogLikelihood(self, means, diagCovs, weights):
-        print time.ctime()
-        numMixtures = means.shape[0]
+    def loglikelihood(self, means, diagCovs, weights):
+        numMixtures = self.numMixtures
 
 
 
         #update if need be
 
-        # assert(means.shape == (numMixtures, self.dim))
+        assert(means.shape == (numMixtures, self.dim))
         assert(diagCovs.shape == (numMixtures, self.dim))
         assert(len(weights)== numMixtures)
 
@@ -69,8 +67,7 @@ class GPULL(LikelihoodEvaluator):
 
     def __init__(self, Xpoints, numMixtures):
         print "GPU Implementation Chosen"
-        LikelihoodEvaluator.__init__(self, Xpoints)
-        self.numMixtures = numMixtures
+        LikelihoodEvaluator.__init__(self, Xpoints, numMixtures)
 
         #Pycuda imports
         import pycuda.autoinit
@@ -114,7 +111,7 @@ class GPULL(LikelihoodEvaluator):
         #Allocate Memory for all our computations
 
 
-    def LogLikelihood(self, means, diagCovs, weights):
+    def loglikelihood(self, means, diagCovs, weights):
 
 
         assert(means.shape == (self.numMixtures, self.dim))
@@ -142,9 +139,6 @@ class GPULL(LikelihoodEvaluator):
 
         ll = self.gpuarray.sum(self.llVal).get()
         return ll
-
-
-
 
 try:
     import pycuda

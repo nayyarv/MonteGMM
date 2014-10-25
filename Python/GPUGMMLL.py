@@ -9,7 +9,7 @@ import numpy as np
 # prepare for global usage
 
 
-def largertest(numRuns=1000, numPoints=512, dim=13, numMixtures=8):
+def largertestOld(numRuns=1000, numPoints=512, dim=13, numMixtures=8):
     with open("../Cuda/KernelV2.cu") as f:
         if numPoints >= 1024:
             mod = SourceModule(f.read().replace('512', '1024'))
@@ -65,6 +65,31 @@ def largertest(numRuns=1000, numPoints=512, dim=13, numMixtures=8):
 
 # tp =  pythonLL(Xpoints, means, diagCovs, weights)
 # print "Correct value: ", tp
+
+
+def largertest(numRuns=1000, numPoints=512, dim=13, numMixtures=8):
+
+    Xpoints = np.random.normal(size=(numPoints, dim)).astype(np.float32)
+    # means = np.random.normal(size=(numMixtures, dim)).astype(np.float32)
+    # diagCovs = np.random.uniform(size=(numMixtures, dim)).astype(np.float32)
+    # weights = np.random.uniform(size=numMixtures).astype(np.float32)
+    # weights /= np.sum(weights)
+
+    from RobustLikelihoodClass import Likelihood
+
+    LLeval = Likelihood(Xpoints, numMixtures)
+
+    for i in xrange(numRuns):
+        if i % 10 == 0: print "At {} iterations".format(i)
+        means = np.random.normal(size=(numMixtures, dim)).astype(np.float32)
+        diagCovs = np.random.uniform(size=(numMixtures, dim)).astype(np.float32)
+        weights = np.random.uniform(size=numMixtures).astype(np.float32)
+        weights /= np.sum(weights)
+
+        tp2 = LLeval.loglikelihood(means, diagCovs, weights)
+    print tp2
+
+    print "NumRuns: {}, numPoints: {} ".format(numRuns, numPoints)
 
 
 if __name__ == '__main__':
