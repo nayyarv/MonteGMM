@@ -17,8 +17,6 @@ def pythonLL(Xpoints, means, diagCovs, weights):
 
     for i in xrange(numPoints):
         for mixes in xrange(numMixtures):
-            multiVal = 1
-
             temp = np.dot((Xpoints[i] - means[mixes]) / diagCovs[mixes], (Xpoints[i] - means[mixes]))
             temp *= -0.5
             ll[i] += weights[mixes] * np.exp(temp) * CovDet[mixes]
