@@ -89,7 +89,7 @@ class GPULL(LikelihoodEvaluator):
             self.numBlocks = self.numPoints / self.numThreads
             if self.numPoints % self.numThreads != 0: self.numBlocks += 1
         else:
-            numBlocks = 1
+            self.numBlocks = 1
 
         print "numBlocks: {}, numPoints: {}".format(self.numBlocks, self.numPoints)
         #Set the right number of threads and blocks given the datasize

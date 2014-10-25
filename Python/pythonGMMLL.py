@@ -111,5 +111,3 @@ if __name__ == '__main__':
         largertest(numRuns=1000, numPoints=64, dim=13, numMixtures=8)
     else:
         print "Failure"
-
-	
