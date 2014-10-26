@@ -90,28 +90,61 @@ def funTest(numRuns=10000, numMixtures=4):
     # exit()
     tol = 0.00001
 
+    meanAcceptance = np.zeros(numMixtures)
+    covAcceptance = np.zeros(numMixtures)
+    weightAcceptance = 0
+
 
     for i in xrange(numRuns):
         proposalMeans = meanRanges * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
-        proposalCovs = 0.01 * localVar * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
-        # proposalweights = 0.1* np.random.normal(size=numMixtures-1).astype(np.float32)
 
-        newMeans = means + proposalMeans
+        for mixture in xrange(proposalMeans.shape[0]):
+            newMeans = means+0
+            #copy, not point
+            #Reinitialize
+            newMeans[mixture] = means[mixture] + proposalMeans[mixture]
 
-        newCovs = diagCovs + proposalCovs
+            newLL = LLeval.loglikelihood(newMeans, diagCovs, weights)
 
-        # newWeights[1:] = weights[1:] + proposalweights
-        #
-        # newWeights[0] = 1 - np.sum(newWeights[1:])
+            acceptProb = newLL - oldLL
+
+            if acceptProb > 0 or acceptProb > np.log(np.random.uniform()):
+                #we have acceptance!
+                means[mixture] = newMeans[mixture]
+                print "\t\t{}: Mean of mixture {} accepted, {}".format(i, mixture, acceptProb)
+                oldLL = newLL
+                meanAcceptance[mixture]+=1
+            else:
+                print "{}: Mean of mixture {} Rejected, {}".format(i, mixture, acceptProb)
 
 
-        newWeights, weightAcceptMod = weighPropPositive(weights)
+        proposalCovs = np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
+
+        for mixture in xrange(proposalCovs.shape[0]):
+            newCovs = diagCovs+0 #reinitialize, copy not point
+            newCovs[mixture] = diagCovs[mixture] + 0.01* localVar * np.random.normal(size=LLeval.dim).astype(np.float32)
+
+            if newCovs.min() <= 0.01:
+                covIllegal += 1
+                print "{}: Illegal cov of mixture: {} proposition: {}".format(i,mixture, covIllegal)
+                continue
+
+            newLL = LLeval.loglikelihood(means, newCovs, weights)
+            acceptProb = newLL - oldLL
+
+            if acceptProb > 0 or acceptProb > np.log(np.random.uniform()):
+                #we have acceptance!
+                diagCovs[mixture] = newCovs[mixture]
+                print "\t\t{}, Cov of mixture {} accepted, {}".format(i, mixture, acceptProb)
+                oldLL = newLL
+                covAcceptance[mixture]+=1
+            else:
+                print "{}: Cov of mixture {} Rejected, {}".format(i, mixture, acceptProb)
+
+
+        newWeights, weightAcceptMod = weighPropPositive(weights, step = 0.05)
         # newWeights = weights
 
-        if (newCovs.min() <= 0):
-            covIllegal += 1
-            print "{}: Illegal cov proposition: {}".format(i, covIllegal)
-            continue
 
         if newWeights.min() < 0:
             minWeightIllegal += 1
@@ -125,28 +158,23 @@ def funTest(numRuns=10000, numMixtures=4):
             print newWeights.min(), newWeights.max(), newWeights.sum()
             continue
 
-        newLL = LLeval.loglikelihood(newMeans, newCovs, newWeights)
+        newLL = LLeval.loglikelihood(means, diagCovs, newWeights)
         # print newLL
 
         acceptProb = newLL - oldLL + weightAcceptMod
 
-        if (acceptProb > 0 or acceptProb > np.log(np.random.uniform())):
-            means = newMeans
+        if acceptProb > 0 or acceptProb > np.log(np.random.uniform()):
             weights = newWeights
-            diagCovs = newCovs
             oldLL = newLL
-
-            acceptNum += 1
-            print "{} Accepted!: \t\t{}, {}".format(i, acceptNum, acceptProb)
-
-
+            print "\t\t{}: Weight Accepted!: {}, {}".format(i, acceptNum, acceptProb)
+            weightAcceptance+=1
         else:
-            print "{} Rejected!: {}".format(i, acceptProb)
+            print "{}: Weight Rejected!: {}, {}".format(i, acceptNum, acceptProb)
 
         meanList[i] = means[0][1]+0
 
 
-            # break
+        # break
 
     print meanList
 
@@ -154,7 +182,10 @@ def funTest(numRuns=10000, numMixtures=4):
     print "WeightIllegalProps: ", 1.0 * minWeightIllegal / numRuns
     print "SumWeightIllegal: ", 1.0 *sumWeightIllegal/numRuns
 
-    print "AcceptedVals: ", 1.0 * acceptNum / numRuns
+
+    print "Mean Acceptance: ",meanAcceptance
+    print "Cov Acceptance: ", covAcceptance
+    print "Weight Acceptance: ", weightAcceptance
 
 
 
