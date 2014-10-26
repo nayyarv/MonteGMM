@@ -144,7 +144,7 @@ def funTest(numRuns=10000, numMixtures=4):
                 print "{}: Cov of mixture {} Rejected, {}".format(i, mixture, acceptProb)
 
 
-        newWeights, weightAcceptMod = weighPropPositive(weights, step = 0.01)
+        newWeights, weightAcceptMod = weighPropPositive(weights, step = 0.001)
         # newWeights = weights
 
 
@@ -182,7 +182,7 @@ def funTest(numRuns=10000, numMixtures=4):
     print meanList
 
     print weightList.mean(0), weightList.var(0)
-    print weightList[1000:1100]
+    print np.sort(weightList[-1])
 
 
     print "CovIllegalProps: ", 1.0 * covIllegal / numRuns
