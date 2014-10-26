@@ -96,7 +96,7 @@ def funTest(numRuns=10000, numMixtures=4):
 
 
     for i in xrange(numRuns):
-        proposalMeans = meanRanges * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
+        proposalMeans = 0.03 * localMean * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
 
         for mixture in xrange(proposalMeans.shape[0]):
             newMeans = means+0
@@ -122,7 +122,7 @@ def funTest(numRuns=10000, numMixtures=4):
 
         for mixture in xrange(proposalCovs.shape[0]):
             newCovs = diagCovs+0 #reinitialize, copy not point
-            newCovs[mixture] = diagCovs[mixture] + 0.01* localVar * np.random.normal(size=LLeval.dim).astype(np.float32)
+            newCovs[mixture] = diagCovs[mixture] + 0.02* localVar * np.random.normal(size=LLeval.dim).astype(np.float32)
 
             if newCovs.min() <= 0.01:
                 covIllegal += 1
@@ -142,7 +142,7 @@ def funTest(numRuns=10000, numMixtures=4):
                 print "{}: Cov of mixture {} Rejected, {}".format(i, mixture, acceptProb)
 
 
-        newWeights, weightAcceptMod = weighPropPositive(weights, step = 0.05)
+        newWeights, weightAcceptMod = weighPropPositive(weights, step = 0.01)
         # newWeights = weights
 
 
