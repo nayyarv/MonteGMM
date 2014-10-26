@@ -96,7 +96,7 @@ def funTest(numRuns=10000, numMixtures=4):
     overallWeightAcceptance = 0
 
 
-    localMean= meanRanges * 0.25
+    localMean= meanRanges * 0.4
     localMean = np.abs(localMean)
     print "LocalMean: ", localMean
     # print np.log(localMean)
@@ -213,10 +213,10 @@ def funTest(numRuns=10000, numMixtures=4):
 
             if weightBatchAcceptance/(50.0) > 0.35:
                 weightStep *= exp_deltan
-                print "increasing weightStep"
+                print "increasing weightStep: ", weightStep
             elif weightBatchAcceptance/(50.0) < 0.25:
                 weightStep /= exp_deltan
-                print "reducing weightStep"
+                print "reducing weightStep: ", weightStep
             weightBatchAcceptance = 0
         # break
 
