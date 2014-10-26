@@ -96,7 +96,7 @@ def funTest(numRuns=10000, numMixtures=4):
     overallWeightAcceptance = 0
 
 
-    localMean= meanRanges
+    localMean= meanRanges * 0.25
     localMean = np.abs(localMean)
     print "LocalMean: ", localMean
     # print np.log(localMean)
@@ -115,7 +115,7 @@ def funTest(numRuns=10000, numMixtures=4):
     # exit()
 
 
-    for i in xrange(numRuns):
+    for i in xrange(1,numRuns):
         # proposalMeans = 0.02 * localMean * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
 
         if i%50 ==0:
@@ -195,7 +195,7 @@ def funTest(numRuns=10000, numMixtures=4):
             weights = newWeights
             oldLL = newLL
             # print "\t\t{}: Weight Accepted!: {}, {}".format(i, acceptNum, acceptProb)
-            # weightBatchAcceptance+=1
+            weightBatchAcceptance+=1
             overallWeightAcceptance+=1
         else:
             pass
@@ -206,6 +206,18 @@ def funTest(numRuns=10000, numMixtures=4):
         diagCovsStorage[i] = diagCovs+0
         #actually copy across
 
+        if i%50 ==0:
+            n = i/50
+            delta_n = min(0.01, 1/np.sqrt(n))
+            exp_deltan = np.exp(delta_n)
+
+            if weightBatchAcceptance/(50.0) > 0.35:
+                weightStep *= exp_deltan
+                print "increasing weightStep"
+            elif weightBatchAcceptance/(50.0) < 0.25:
+                weightStep /= exp_deltan
+                print "reducing weightStep"
+            weightBatchAcceptance = 0
         # break
 
 
