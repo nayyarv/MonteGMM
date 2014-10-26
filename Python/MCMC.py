@@ -26,10 +26,12 @@ def funTest(numRuns = 10000, numMixtures = 8):
 
     #Initialize params
     localMean = Xpoints.mean(0)
-    means = np.tile(localMean, (numMixtures, 1))
+    meanRanges = Xpoints.max(0)-Xpoints.min(0)
+    meanRanges *= 0.005
+    means = np.tile(localMean, (numMixtures, 1)) + meanRanges*np.random.normal(size = (numMixtures, LLeval.dim))
 
     localVar = Xpoints.var(0)
-    diagCovs = np.tile(localVar, (numMixtures,1))
+    diagCovs = np.tile(localVar, (numMixtures,1))  + 0.01 * localVar * np.random.normal(size = (numMixtures, LLeval.dim))
 
     weights = np.repeat(1.0/numMixtures, numMixtures)
 
@@ -43,37 +45,39 @@ def funTest(numRuns = 10000, numMixtures = 8):
     weightIllegal=0
     oldLL = LLeval.loglikelihood(means, diagCovs, weights)
 
-    # print oldLL
+    print oldLL
     # exit()
 
 
     for i in xrange(numRuns):
-        proposalMeans = np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
-        proposalCovs = 2 + np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
+        proposalMeans = meanRanges * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
+        # proposalCovs =  0.2 * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
         # proposalweights = 0.1* np.random.normal(size=numMixtures-1).astype(np.float32)
 
         newMeans = means + proposalMeans
 
-        newCovs = diagCovs + proposalCovs
+        newCovs = diagCovs #+ proposalCovs
 
         # newWeights[1:] = weights[1:] + proposalweights
         #
         # newWeights[0] = 1 - np.sum(newWeights[1:])
 
 
-        newWeights = weightProp(weights)
+        # newWeights = weightProp(weights)
+        newWeights = weights
 
         if (newCovs.min()<=0):
             covIllegal+=1
             print "{}: Illegal cov proposition: {}".format(i, covIllegal)
             continue
 
-        if (newWeights.min()<0 or newWeights.sum()>1):
+        if (newWeights.min()<0 or newWeights.sum()!=1):
             weightIllegal +=1
             print "{}: Illegal weight proposition: {}".format(i, weightIllegal)
             continue
 
         newLL = LLeval.loglikelihood(newMeans, newCovs, newWeights)
+        # print newLL
 
         acceptProb = newLL - oldLL
 
@@ -84,9 +88,9 @@ def funTest(numRuns = 10000, numMixtures = 8):
             oldLL = newLL
 
             acceptNum += 1
-            print "{} Accepted!: {}".format(i, 1.0*acceptNum/i)
+            print "{} Accepted!: \t\t{}, {}".format(i, acceptNum, 1.0*acceptNum/(i+1))
         else:
-            print "{} Rejected!: {}".format(i,np.exp(acceptProb))
+            print "{} Rejected!: {}".format(i,acceptProb)
 
         # break
 
