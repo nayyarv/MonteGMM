@@ -27,7 +27,7 @@ def weightAcceptanceMod(newWeights, currWeights, step = 0.01):
 
     AcceptMod = np.sum(np.log(oldCdf)) - np.sum(np.log(newCdf))
 
-    print "AcceptMod: ", AcceptMod
+    # print "AcceptMod: ", AcceptMod
     return AcceptMod
 
 def weighPropPositive(currWeights, step = 0.01):
@@ -51,8 +51,6 @@ def weightPropOld(currWeights, step=0.01):
     newWeights[1:] = currWeights[1:] + proposedMove
     newWeights[0] = 1 - np.sum(newWeights[1:])
     return newWeights
-
-
 
 
 
@@ -217,9 +215,9 @@ def funTest(numRuns=10000, numMixtures=4):
     print "SumWeightIllegal: ", 1.0 *sumWeightIllegal/numRuns
 
 
-    print "Mean Acceptance: ",meanBatchAcceptance
-    print "Cov Acceptance: ", covBatchAcceptance
-    print "Weight Acceptance: ", weightBatchAcceptance
+    print "Mean Acceptance: ", overallMeanAcceptance
+    print "Cov Acceptance: ", overallCovAcceptance
+    print "Weight Acceptance: ", overallWeightAcceptance
 
 
     import cPickle
