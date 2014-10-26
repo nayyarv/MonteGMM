@@ -55,7 +55,7 @@ def weightPropOld(currWeights, step=0.01):
 
 
 
-def funTest(numRuns=10000, numMixtures=4):
+def MCMCRun(Xpoints, writeToName, numRuns=10000, numMixtures=4):
     Xpoints = np.vstack(SadCorpus())
     writeToName = "SadCorpus"
 
@@ -201,14 +201,14 @@ def funTest(numRuns=10000, numMixtures=4):
             pass
             # print "{}: Weight Rejected!: {}, {}".format(i, acceptNum, acceptProb)
 
-        weightsStorage[i] = weights+0
-        meansStorage[i] = means+0
-        diagCovsStorage[i] = diagCovs+0
+        weightsStorage[i-1] = weights+0
+        meansStorage[i-1] = means+0
+        diagCovsStorage[i-1] = diagCovs+0
         #actually copy across
 
         if i%50 ==0:
-            n = i/50
-            delta_n = min(0.01, 1/np.sqrt(n))
+            # n = i/50
+            delta_n = min(0.01, 1/np.sqrt(i))
             exp_deltan = np.exp(delta_n)
 
             if weightBatchAcceptance/(50.0) > 0.35:
@@ -245,13 +245,13 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) == 2:
-        funTest(numRuns=int(sys.argv[1]))
+        MCMCRun(numRuns=int(sys.argv[1]))
     # main(, )
     # We have a input length and numRuns length
     elif len(sys.argv) == 3:
-        funTest(numRuns=int(sys.argv[1]), numMixtures=int(sys.argv[2]))
+        MCMCRun(numRuns=int(sys.argv[1]), numMixtures=int(sys.argv[2]))
     elif len(sys.argv) == 1:
         # run with default
-        funTest()
+        MCMCRun()
     else:
         print "Failure in args"

@@ -53,5 +53,30 @@ def adaptive():
         weightBatchAcceptance = 0
 
 
+def adaptMeans():
+
+    for mixture in xrange(LLeval.numMixtures):
+        meansStorage[i-1]
+        newMeans = means+0
+
+        newMeans[mixture] = means[mixture] + \
+                             np.random.multivariate_normal(size = LLeval.dim).astype(np.float32)
+
+        newLL = LLeval.loglikelihood(newMeans, diagCovs, weights)
+
+        acceptProb = newLL - oldLL
+
+        if acceptProb > 0 or acceptProb > np.log(np.random.uniform()):
+
+            means[mixture] = newMeans[mixture]
+
+            oldLL = newLL
+
+            overallMeanAcceptance[mixture]+=1
+
+
+
+
+
 if __name__ == "__main__":
     main()

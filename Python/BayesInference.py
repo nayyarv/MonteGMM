@@ -1,12 +1,27 @@
 __author__ = 'Varun Nayyar'
 
 import numpy as np
-from matplotlib import pyplot as plt
+from MFCCArrayGen import emotions, speakers, getIndiviudalData, getCorpus
+from MCMC import MCMCRun
 from RobustLikelihoodClass import Likelihood
+from emailScripy import alertMe
 
 
-def main():
-    pass
+def main2(numRuns = 100000, numMixtures = 8, speakerIndex = 6):
+    import time
+
+    start = time.ctime()
+
+    for emotion in emotions:
+        Xpoints = getCorpus(emotion, speakers[speakerIndex])
+        MCMCRun(Xpoints, emotion+"-"+speakers[speakerIndex], numRuns, numMixtures)
+
+    message = "Start time: {}\nEnd Time: " \
+              "{}\n\nNumRuns: {}, numMixtures:{}".format(
+        start, time.ctime(), numRuns, numMixtures)
+
+    alertMe(message)
+
 
 
 def BayesProb(utterance, numMixtures, means, diagCovs, weights):
@@ -34,4 +49,4 @@ def BayesProb(utterance, numMixtures, means, diagCovs, weights):
 
 
 if __name__ == "__main__":
-    main()
+    main2()
