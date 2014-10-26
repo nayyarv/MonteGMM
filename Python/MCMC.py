@@ -96,7 +96,7 @@ def funTest(numRuns=10000, numMixtures=4):
     overallWeightAcceptance = 0
 
 
-    localMean=0.001 * meanRanges
+    localMean=0.01 * meanRanges
     localMean = np.abs(localMean)
     print "LocalMean: ", localMean
     # print np.log(localMean)
@@ -221,7 +221,7 @@ def funTest(numRuns=10000, numMixtures=4):
 
 
     import cPickle
-    with open("../SpeechMCMC/"+writeToName, 'w') as f:
+    with open("../SpeechMCMC/"+writeToName+".txt", 'w') as f:
         cPickle.dump((meansStorage, diagCovsStorage, weightsStorage), f)
 
 
