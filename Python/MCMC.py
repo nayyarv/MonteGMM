@@ -58,7 +58,7 @@ def weightPropOld(currWeights, step=0.01):
 
 
 def funTest(numRuns=10000, numMixtures=4):
-    Xpoints = SadCorpus()
+    Xpoints = np.vstack(SadCorpus())
 
 
     # use my flexi object to either use the GPU or CPU depending on what's available
@@ -92,19 +92,39 @@ def funTest(numRuns=10000, numMixtures=4):
     # exit()
     tol = 0.00001
 
-    meanAcceptance = np.zeros(numMixtures)
-    covAcceptance = np.zeros(numMixtures)
-    weightAcceptance = 0
+    meanBatchAcceptance = np.zeros(numMixtures)
+    covBatchAcceptance = np.zeros(numMixtures)
+    weightBatchAcceptance = 0
+
+    overallMeanAcceptance = np.zeros(numMixtures)
+    overallCovAcceptance = np.zeros(numMixtures)
+    overallWeightAcceptance = 0
+
+
+    localMean*=0.02
+    localMean = np.abs(localMean)
+    print "LocalMean: ", localMean
+    # print np.log(localMean)
+
+    localVar*=0.02
+    localVar = np.abs(localVar)
+    print "LocalVars: ", localVar
+    # print np.log(localVar)
+
+    weightStep = 0.005
+
+    # exit()
 
 
     for i in xrange(numRuns):
-        proposalMeans = 0.02 * localMean * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
+        # proposalMeans = 0.02 * localMean * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
 
-        for mixture in xrange(proposalMeans.shape[0]):
+        for mixture in xrange(LLeval.numMixtures):
             newMeans = means+0
             #copy, not point
             #Reinitialize
-            newMeans[mixture] = means[mixture] + proposalMeans[mixture]
+            newMeans[mixture] = means[mixture] + \
+                                 localMean * np.random.normal(size = LLeval.dim).astype(np.float32)
 
             newLL = LLeval.loglikelihood(newMeans, diagCovs, weights)
 
@@ -115,16 +135,17 @@ def funTest(numRuns=10000, numMixtures=4):
                 means[mixture] = newMeans[mixture]
                 print "\t\t{}: Mean of mixture {} accepted, {}".format(i, mixture, acceptProb)
                 oldLL = newLL
-                meanAcceptance[mixture]+=1
+                meanBatchAcceptance[mixture]+=1
+                overallMeanAcceptance[mixture]+=1
             else:
                 print "{}: Mean of mixture {} Rejected, {}".format(i, mixture, acceptProb)
 
 
         proposalCovs = np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
 
-        for mixture in xrange(proposalCovs.shape[0]):
+        for mixture in xrange(LLeval.numMixtures):
             newCovs = diagCovs+0 #reinitialize, copy not point
-            newCovs[mixture] = diagCovs[mixture] + 0.02* localVar * np.random.normal(size=LLeval.dim).astype(np.float32)
+            newCovs[mixture] = diagCovs[mixture] + localVar * np.random.normal(size=LLeval.dim).astype(np.float32)
 
             if newCovs.min() <= 0.01:
                 covIllegal += 1
@@ -139,12 +160,13 @@ def funTest(numRuns=10000, numMixtures=4):
                 diagCovs[mixture] = newCovs[mixture]
                 print "\t\t{}, Cov of mixture {} accepted, {}".format(i, mixture, acceptProb)
                 oldLL = newLL
-                covAcceptance[mixture]+=1
+                covBatchAcceptance[mixture]+=1
+                overallCovAcceptance[mixture]+=1
             else:
                 print "{}: Cov of mixture {} Rejected, {}".format(i, mixture, acceptProb)
 
 
-        newWeights, weightAcceptMod = weighPropPositive(weights, step = 0.001)
+        newWeights, weightAcceptMod = weighPropPositive(weights, step = weightStep)
         # newWeights = weights
 
 
@@ -169,13 +191,51 @@ def funTest(numRuns=10000, numMixtures=4):
             weights = newWeights
             oldLL = newLL
             print "\t\t{}: Weight Accepted!: {}, {}".format(i, acceptNum, acceptProb)
-            weightAcceptance+=1
+            weightBatchAcceptance+=1
+            overallWeightAcceptance+=1
         else:
             print "{}: Weight Rejected!: {}, {}".format(i, acceptNum, acceptProb)
 
         meanList[i] = means[0][1]+0
         weightList[i] = weights+0
 
+        if (i-1)%50 ==0:
+            #Update Step sizes
+            n = i/50
+            delta_n = min(0.01, 1/np.sqrt(n))
+            exp_deltan = np.exp(delta_n)
+            #acceptance probabilities
+            meanAccProb = np.mean(meanBatchAcceptance/(i*1.0))
+            covAccProb = np.mean(covBatchAcceptance/(i*1.0))
+            weightAccProb = weightBatchAcceptance/(i*1.0)
+
+            print "Acceptance rate for batch {} is:".format(n)
+            print "Means: ", meanAccProb
+            print "Covs: ", covAccProb
+            print "Weights: ", weightAccProb
+
+
+
+            if meanAccProb > 0.35: # too high
+                localMean*=exp_deltan
+            elif meanAccProb < 0.25:
+                localMean/=exp_deltan
+
+            if covAccProb > 0.35:
+                localVar *= exp_deltan
+            elif covAccProb < 0.25:
+                localVar /=exp_deltan
+
+                #otherwise
+
+            if weightAccProb > 0.35:
+                weightStep *= exp_deltan
+            elif weightAccProb < 0.25:
+                weightStep /= exp_deltan
+
+            meanBatchAcceptance[:] = 0
+            covBatchAcceptance[:] = 0
+            weightBatchAcceptance = 0
 
         # break
 
@@ -190,9 +250,9 @@ def funTest(numRuns=10000, numMixtures=4):
     print "SumWeightIllegal: ", 1.0 *sumWeightIllegal/numRuns
 
 
-    print "Mean Acceptance: ",meanAcceptance
-    print "Cov Acceptance: ", covAcceptance
-    print "Weight Acceptance: ", weightAcceptance
+    print "Mean Acceptance: ",meanBatchAcceptance
+    print "Cov Acceptance: ", covBatchAcceptance
+    print "Weight Acceptance: ", weightBatchAcceptance
 
 
 
