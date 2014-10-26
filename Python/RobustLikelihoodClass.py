@@ -11,7 +11,10 @@ class LikelihoodEvaluator():
         self.numPoints, self.dim = Xpoints.shape
         self.numMixtures = numMixtures
 
+    def loglikelihood(self, means, diagCovs, weights):
+        raise NotImplementedError
 
+    __call__ = loglikelihood
 
 
 
@@ -59,7 +62,7 @@ class SingleCoreLL(LikelihoodEvaluator):
             ll[i] = np.log(ll[i]) - constMulti
 
         return np.sum(ll)
-    __call__ = loglikelihood
+
 
 
 class GPULL(LikelihoodEvaluator):
@@ -141,8 +144,6 @@ class GPULL(LikelihoodEvaluator):
 
         ll = self.gpuarray.sum(self.llVal).get()
         return ll
-
-    __call__ = loglikelihood
 
 try:
     import pycuda

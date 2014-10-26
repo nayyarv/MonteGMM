@@ -111,7 +111,7 @@ def funTest(numRuns=10000, numMixtures=4):
     print "LocalVars: ", localVar
     # print np.log(localVar)
 
-    weightStep = 0.002
+    weightStep = 0.003
 
     # exit()
 
