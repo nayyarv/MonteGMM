@@ -86,7 +86,7 @@ def funTest(numRuns=10000, numMixtures=4):
 
     meanList = np.zeros(numRuns)
 
-    weightList = np.zeros(numRuns)
+    weightList = np.zeros((numRuns,numMixtures))
 
     print oldLL
     # exit()
