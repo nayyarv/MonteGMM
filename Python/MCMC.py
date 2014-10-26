@@ -199,44 +199,6 @@ def funTest(numRuns=10000, numMixtures=4):
         meanList[i] = means[0][1]+0
         weightList[i] = weights+0
 
-        if (i-1)%50 ==0:
-            #Update Step sizes
-            n = i/50
-            delta_n = min(0.01, 1/np.sqrt(n))
-            exp_deltan = np.exp(delta_n)
-            #acceptance probabilities
-            meanAccProb = np.mean(meanBatchAcceptance/(i*1.0))
-            covAccProb = np.mean(covBatchAcceptance/(i*1.0))
-            weightAccProb = weightBatchAcceptance/(i*1.0)
-
-            print "Acceptance rate for batch {} is:".format(n)
-            print "Means: ", meanAccProb
-            print "Covs: ", covAccProb
-            print "Weights: ", weightAccProb
-
-
-
-            if meanAccProb > 0.35: # too high
-                localMean*=exp_deltan
-            elif meanAccProb < 0.25:
-                localMean/=exp_deltan
-
-            if covAccProb > 0.35:
-                localVar *= exp_deltan
-            elif covAccProb < 0.25:
-                localVar /=exp_deltan
-
-                #otherwise
-
-            if weightAccProb > 0.35:
-                weightStep *= exp_deltan
-            elif weightAccProb < 0.25:
-                weightStep /= exp_deltan
-
-            meanBatchAcceptance[:] = 0
-            covBatchAcceptance[:] = 0
-            weightBatchAcceptance = 0
-
         # break
 
     print meanList
