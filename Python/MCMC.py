@@ -5,7 +5,7 @@ __author__ = 'Varun Nayyar'
 import numpy as np
 from RobustLikelihoodClass import Likelihood
 from MFCCArrayGen import SadCorpus
-
+from scipy.stats import norm
 
 def weightProp2(currWeights):
     numMixtures = len(currWeights)
@@ -16,13 +16,45 @@ def weightProp2(currWeights):
     return np.diff(np.sort(tempWeights))
 
 
-def weightProp(currWeights, step=0.01):
+def weightAcceptanceMod(newWeights, currWeights, step = 0.01):
+    if (currWeights[1:].min()>0.03 or newWeights[1:].min()>0.3): return 0
+    currWeights = currWeights[1:]/step
+    oldCdf = norm.cdf(currWeights)
+    newWeights = newWeights[1:]/step
+    newCdf = norm.cdf(newWeights)
+
+    # print oldCdf, newCdf
+
+    AcceptMod = np.sum(np.log(oldCdf)) - np.sum(np.log(newCdf))
+
+    print "AcceptMod: ", AcceptMod
+    return AcceptMod
+
+def weighPropPositive(currWeights, step = 0.01):
+
+    numMixtures = len(currWeights)
+    newWeights = np.zeros(numMixtures)
+
+    while newWeights.min()<0 or newWeights.max() ==0:
+        proposedMove = step * np.random.normal(size=numMixtures - 1)
+        newWeights[:] = 0
+        newWeights[1:] = currWeights[1:] + proposedMove
+        newWeights[0] = 1 - np.sum(newWeights[1:])
+
+    return newWeights, weightAcceptanceMod(newWeights, currWeights, step)
+
+
+def weightPropOld(currWeights, step=0.01):
     numMixtures = len(currWeights)
     proposedMove = step * np.random.normal(size=numMixtures - 1)
     newWeights = np.zeros(numMixtures)
     newWeights[1:] = currWeights[1:] + proposedMove
     newWeights[0] = 1 - np.sum(newWeights[1:])
     return newWeights
+
+
+
+
 
 
 def funTest(numRuns=10000, numMixtures=4):
@@ -43,7 +75,7 @@ def funTest(numRuns=10000, numMixtures=4):
     diagCovs = np.tile(localVar, (numMixtures, 1)) + 0.01 * localVar * np.random.normal(size=(numMixtures, LLeval.dim))
 
     weights = np.repeat(1.0 / numMixtures, numMixtures)
-
+    # weights = np.array([1]+[0]*(numMixtures-1))
     newWeights = np.zeros(numMixtures)
 
     covIllegal = 0
@@ -73,7 +105,7 @@ def funTest(numRuns=10000, numMixtures=4):
         # newWeights[0] = 1 - np.sum(newWeights[1:])
 
 
-        newWeights = weightProp(weights)
+        newWeights, weightAcceptMod = weighPropPositive(weights)
         # newWeights = weights
 
         if (newCovs.min() <= 0):
@@ -96,7 +128,7 @@ def funTest(numRuns=10000, numMixtures=4):
         newLL = LLeval.loglikelihood(newMeans, newCovs, newWeights)
         # print newLL
 
-        acceptProb = newLL - oldLL
+        acceptProb = newLL - oldLL + weightAcceptMod
 
         if (acceptProb > 0 or acceptProb > np.log(np.random.uniform())):
             means = newMeans
@@ -105,11 +137,11 @@ def funTest(numRuns=10000, numMixtures=4):
             oldLL = newLL
 
             acceptNum += 1
-            print "{} Accepted!: \t\t{}, {}".format(i, acceptNum, np.exp(acceptProb))
+            print "{} Accepted!: \t\t{}, {}".format(i, acceptNum, acceptProb)
 
 
         else:
-            print "{} Rejected!: {}".format(i, np.exp(acceptProb))
+            print "{} Rejected!: {}".format(i, acceptProb)
 
         meanList[i] = means[0][1]+0
 
