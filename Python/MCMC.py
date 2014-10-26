@@ -86,6 +86,8 @@ def funTest(numRuns=10000, numMixtures=4):
 
     meanList = np.zeros(numRuns)
 
+    weightList = np.zeros(numRuns)
+
     print oldLL
     # exit()
     tol = 0.00001
@@ -172,11 +174,16 @@ def funTest(numRuns=10000, numMixtures=4):
             print "{}: Weight Rejected!: {}, {}".format(i, acceptNum, acceptProb)
 
         meanList[i] = means[0][1]+0
+        weightList[i] = weights+0
 
 
         # break
 
     print meanList
+
+    print weightList.mean(0), weightList.var(0)
+    print weightList[1000:1100]
+
 
     print "CovIllegalProps: ", 1.0 * covIllegal / numRuns
     print "WeightIllegalProps: ", 1.0 * minWeightIllegal / numRuns
