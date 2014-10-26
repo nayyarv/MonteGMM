@@ -48,8 +48,11 @@ def funTest(numRuns=10000, numMixtures=8):
 
     covIllegal = 0
     acceptNum = 0
-    weightIllegal = 0
+    minWeightIllegal = 0
+    sumWeightIllegal = 0
     oldLL = LLeval.loglikelihood(means, diagCovs, weights)
+
+    meanList = np.zeros(numRuns)
 
     print oldLL
     # exit()
@@ -79,14 +82,14 @@ def funTest(numRuns=10000, numMixtures=8):
             continue
 
         if newWeights.min() < 0:
-            weightIllegal += 1
-            print "{}: Min Failure: Illegal weight proposition: {}".format(i, weightIllegal)
+            minWeightIllegal += 1
+            print "{}: Min Failure: Illegal weight proposition: {}".format(i, minWeightIllegal)
             print newWeights.min(), newWeights.max(), newWeights.sum()
             continue
 
         if newWeights.sum() < (1.0 - tol) or newWeights.sum()>(1.0+tol):
-            weightIllegal += 1
-            print "{}: Sum failure: Illegal weight proposition: {}".format(i, weightIllegal)
+            sumWeightIllegal += 1
+            print "{}: Sum failure: Illegal weight proposition: {}".format(i, sumWeightIllegal)
             print newWeights.min(), newWeights.max(), newWeights.sum()
             continue
 
@@ -102,16 +105,26 @@ def funTest(numRuns=10000, numMixtures=8):
             oldLL = newLL
 
             acceptNum += 1
-            print "{} Accepted!: \t\t{}, {}".format(i, acceptNum, 1.0 * acceptNum / (i + 1))
+            print "{} Accepted!: \t\t{}, {}".format(i, acceptNum, np.exp(acceptProb))
+
+
         else:
-            print "{} Rejected!: {}".format(i, acceptProb)
+            print "{} Rejected!: {}".format(i, np.exp(acceptProb))
+
+        meanList[i] = means[0][1]+0
+
 
             # break
 
+    print meanList
+
     print "CovIllegalProps: ", 1.0 * covIllegal / numRuns
-    print "WeightIllegalProps: ", 1.0 * weightIllegal / numRuns
+    print "WeightIllegalProps: ", 1.0 * minWeightIllegal / numRuns
+    print "SumWeightIllegal: ", 1.0 *sumWeightIllegal/numRuns
 
     print "AcceptedVals: ", 1.0 * acceptNum / numRuns
+
+
 
 
 if __name__ == "__main__":
