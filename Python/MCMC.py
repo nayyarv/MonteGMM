@@ -120,6 +120,9 @@ def funTest(numRuns=10000, numMixtures=4):
     for i in xrange(numRuns):
         # proposalMeans = 0.02 * localMean * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
 
+        if i%50 ==0:
+            print "At Iteration ", i
+
         for mixture in xrange(LLeval.numMixtures):
             newMeans = means+0
             #copy, not point
@@ -218,8 +221,8 @@ def funTest(numRuns=10000, numMixtures=4):
     print "Cov Acceptance: ", covBatchAcceptance
     print "Weight Acceptance: ", weightBatchAcceptance
 
-    import cPickle
 
+    import cPickle
     with open("../SpeechMCMC/"+writeToName, 'w') as f:
         cPickle.dump((meansStorage, diagCovsStorage, weightsStorage), f)
 
