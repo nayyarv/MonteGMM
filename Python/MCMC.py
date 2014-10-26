@@ -25,7 +25,7 @@ def weightProp(currWeights, step=0.01):
     return newWeights
 
 
-def funTest(numRuns=10000, numMixtures=8):
+def funTest(numRuns=10000, numMixtures=4):
     Xpoints = SadCorpus()
 
 
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) == 2:
-        funTest(numRuns=int(sys.argv[1]), numMixtures=8)
+        funTest(numRuns=int(sys.argv[1]))
     # main(, )
     # We have a input length and numRuns length
     elif len(sys.argv) == 3:
