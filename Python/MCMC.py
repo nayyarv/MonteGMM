@@ -56,8 +56,9 @@ def weightPropOld(currWeights, step=0.01):
 
 
 def MCMCRun(Xpoints, writeToName, numRuns=10000, numMixtures=4):
-    Xpoints = np.vstack(SadCorpus())
-    writeToName = "SadCorpus"
+
+    if (Xpoints is None): Xpoints = np.vstack(SadCorpus())
+    if writeToName is None: writeToName = "SadCorpus"
 
 
     # use my flexi object to either use the GPU or CPU depending on what's available
@@ -245,13 +246,13 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) == 2:
-        MCMCRun(numRuns=int(sys.argv[1]))
+        MCMCRun(None, None,numRuns=int(sys.argv[1]))
     # main(, )
     # We have a input length and numRuns length
     elif len(sys.argv) == 3:
-        MCMCRun(numRuns=int(sys.argv[1]), numMixtures=int(sys.argv[2]))
+        MCMCRun(None, None,numRuns=int(sys.argv[1]), numMixtures=int(sys.argv[2]))
     elif len(sys.argv) == 1:
         # run with default
-        MCMCRun()
+        MCMCRun(None, None)
     else:
         print "Failure in args"

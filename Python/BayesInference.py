@@ -14,6 +14,8 @@ def main2(numRuns = 100000, numMixtures = 8, speakerIndex = 6):
 
     for emotion in emotions:
         Xpoints = getCorpus(emotion, speakers[speakerIndex])
+
+
         MCMCRun(Xpoints, emotion+"-"+speakers[speakerIndex], numRuns, numMixtures)
 
     message = "Start time: {}\nEnd Time: " \
@@ -49,4 +51,5 @@ def BayesProb(utterance, numMixtures, means, diagCovs, weights):
 
 
 if __name__ == "__main__":
-    main2()
+    for i in xrange(len(speakers)):
+        main2(numMixtures=8, speakerIndex=i)

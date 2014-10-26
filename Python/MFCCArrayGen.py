@@ -102,7 +102,7 @@ def getCorpus(emotion, speakerID = None):
     MFCCVals = []
     for file in MFCCFiles:
         if emotion in file and speakerID not in file:
-            print file
+            print "Currently reading", file
             with open(os.path.join(ExtractedMFCCs, file)) as f:
                 speakerEmotion = cPickle.load(f)
                 speakerEmotion = np.vstack(speakerEmotion)
