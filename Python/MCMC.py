@@ -98,7 +98,7 @@ def funTest(numRuns=10000, numMixtures=4):
 
 
     for i in xrange(numRuns):
-        proposalMeans = 0.03 * localMean * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
+        proposalMeans = 0.02 * localMean * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
 
         for mixture in xrange(proposalMeans.shape[0]):
             newMeans = means+0
