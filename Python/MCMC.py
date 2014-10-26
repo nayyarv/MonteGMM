@@ -101,7 +101,7 @@ def funTest(numRuns=10000, numMixtures=4):
     overallWeightAcceptance = 0
 
 
-    localMean*=0.02
+    localMean*=0.015
     localMean = np.abs(localMean)
     print "LocalMean: ", localMean
     # print np.log(localMean)
@@ -111,7 +111,7 @@ def funTest(numRuns=10000, numMixtures=4):
     print "LocalVars: ", localVar
     # print np.log(localVar)
 
-    weightStep = 0.005
+    weightStep = 0.002
 
     # exit()
 
