@@ -2,7 +2,7 @@
 import numpy as np
 from MFCCArrayGen import getCorpus, getIndiviudalData, emotions, speakers
 
-from sklearn.metrics import confusion_matrix
+# from sklearn.metrics import confusion_matrix
 from RobustLikelihoodClass import Likelihood
 
 import sys, os
