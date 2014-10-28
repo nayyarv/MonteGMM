@@ -186,7 +186,7 @@ def MCMCRun(Xpoints, writeToName, numRuns=10000, numMixtures=4):
             print "{}: Sum failure: Illegal weight proposition: {}".format(i, sumWeightIllegal)
             print newWeights.min(), newWeights.max(), newWeights.sum()
          
-         else:
+        else:
 
 	        newLL = LLeval.loglikelihood(means, diagCovs, newWeights)
 	        # print newLL

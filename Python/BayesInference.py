@@ -26,7 +26,7 @@ def main2(numRuns = 100000, numMixtures = 8, speakerIndex = 6):
 
         message += "\nEmotion: {}, speaker:{}\n".format(emotion, speakers[speakerIndex])
 
-    alertMe(message)
+        alertMe(message)
 
 
 
