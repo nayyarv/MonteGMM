@@ -5,7 +5,7 @@ import os
 import cPickle
 
 
-emotions = ["Sad", "Bored", "Happy", "HotAnger", "Neutral"]
+emotions = ["Neutral", "Sad", "Bored", "Happy", "HotAnger"]
 speakers = ["CC1", "CL1", "GG1", "JG1", "MF1", "MK1", "MM1"]
 
 
@@ -47,7 +47,7 @@ def SadCorpus():
     MFCCVals = []
     for file in MFCCFiles:
         if "Sad" in file:
-            print file
+            # print file
             with open(os.path.join(ExtractedMFCCs, file)) as f:
                 speakerEmotion = cPickle.load(f)
                 speakerEmotion = np.vstack(speakerEmotion)
@@ -102,7 +102,7 @@ def getCorpus(emotion, speakerID = None):
     MFCCVals = []
     for file in MFCCFiles:
         if emotion in file and speakerID not in file:
-            print "Currently reading", file
+            # print "Currently reading", file
             with open(os.path.join(ExtractedMFCCs, file)) as f:
                 speakerEmotion = cPickle.load(f)
                 speakerEmotion = np.vstack(speakerEmotion)

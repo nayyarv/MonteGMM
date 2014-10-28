@@ -32,6 +32,8 @@ def main2(numMixtures = 8, speakerIndex = 6):
     y_test = []
     y_pred = []
 
+    # Checkemotions = ["Neutral"]
+
     for emotion in emotions:
         Xpoints = getCorpus(emotion, speakers[speakerIndex])
         modelID = emotion
