@@ -109,9 +109,12 @@ def MCMCRun(Xpoints, writeToName, numRuns=10000, numMixtures=4):
 
     weightStep = 0.003
 
-    meansStorage = np.zeros((numRuns, numMixtures, LLeval.dim))
-    diagCovsStorage = np.zeros((numRuns, numMixtures, LLeval.dim))
-    weightsStorage = np.zeros((numRuns, numMixtures))
+
+    Lag = 100
+
+    meansStorage = np.zeros((numRuns/Lag, numMixtures, LLeval.dim))
+    diagCovsStorage = np.zeros((numRuns/Lag, numMixtures, LLeval.dim))
+    weightsStorage = np.zeros((numRuns/Lag, numMixtures))
 
     # exit()
 
@@ -203,8 +206,8 @@ def MCMCRun(Xpoints, writeToName, numRuns=10000, numMixtures=4):
 	            pass
             # print "{}: Weight Rejected!: {}, {}".format(i, acceptNum, acceptProb)
 
-        if (i-1)%100==0:
-        	currIndex = (i-1)//100
+        if (i-1)%Lag==0:
+        	currIndex = (i-1)//Lag
 	        weightsStorage[currIndex] = weights+0
 	        meansStorage[currIndex] = means+0
 	        diagCovsStorage[currIndex] = diagCovs+0
