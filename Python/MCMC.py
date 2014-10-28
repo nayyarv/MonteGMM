@@ -179,32 +179,35 @@ def MCMCRun(Xpoints, writeToName, numRuns=10000, numMixtures=4):
             minWeightIllegal += 1
             print "{}: Min Failure: Illegal weight proposition: {}".format(i, minWeightIllegal)
             print newWeights.min(), newWeights.max(), newWeights.sum()
-            continue
+            
 
-        if newWeights.sum() < (1.0 - tol) or newWeights.sum()>(1.0+tol):
+        elif newWeights.sum() < (1.0 - tol) or newWeights.sum()>(1.0+tol):
             sumWeightIllegal += 1
             print "{}: Sum failure: Illegal weight proposition: {}".format(i, sumWeightIllegal)
             print newWeights.min(), newWeights.max(), newWeights.sum()
-            continue
+         
+         else:
 
-        newLL = LLeval.loglikelihood(means, diagCovs, newWeights)
-        # print newLL
+	        newLL = LLeval.loglikelihood(means, diagCovs, newWeights)
+	        # print newLL
 
-        acceptProb = newLL - oldLL + weightAcceptMod
+	        acceptProb = newLL - oldLL + weightAcceptMod
 
-        if acceptProb > 0 or acceptProb > np.log(np.random.uniform()):
-            weights = newWeights
-            oldLL = newLL
-            # print "\t\t{}: Weight Accepted!: {}, {}".format(i, acceptNum, acceptProb)
-            weightBatchAcceptance+=1
-            overallWeightAcceptance+=1
-        else:
-            pass
+	        if acceptProb > 0 or acceptProb > np.log(np.random.uniform()):
+	            weights = newWeights
+	            oldLL = newLL
+	            # print "\t\t{}: Weight Accepted!: {}, {}".format(i, acceptNum, acceptProb)
+	            weightBatchAcceptance+=1
+	            overallWeightAcceptance+=1
+	        else:
+	            pass
             # print "{}: Weight Rejected!: {}, {}".format(i, acceptNum, acceptProb)
 
-        weightsStorage[i-1] = weights+0
-        meansStorage[i-1] = means+0
-        diagCovsStorage[i-1] = diagCovs+0
+        if (i-1)%100==0:
+        	currIndex = (i-1)//100
+	        weightsStorage[currIndex] = weights+0
+	        meansStorage[currIndex] = means+0
+	        diagCovsStorage[currIndex] = diagCovs+0
         #actually copy across
 
         if i%50 ==0:
@@ -222,21 +225,22 @@ def MCMCRun(Xpoints, writeToName, numRuns=10000, numMixtures=4):
         # break
 
 
+    message = ""
+    meassage += "CovIllegalProps: {}\n".format(1.0 * covIllegal / numRuns)
+    message += "WeightIllegalProps: {}\n".format(1.0 * minWeightIllegal / numRuns)
+    message +="SumWeightIllegal: {}\n".format(1.0 *sumWeightIllegal/numRuns)
 
-    print "CovIllegalProps: ", 1.0 * covIllegal / numRuns
-    print "WeightIllegalProps: ", 1.0 * minWeightIllegal / numRuns
-    print "SumWeightIllegal: ", 1.0 *sumWeightIllegal/numRuns
 
-
-    print "Mean Acceptance: ", overallMeanAcceptance
-    print "Cov Acceptance: ", overallCovAcceptance
-    print "Weight Acceptance: ", overallWeightAcceptance
+    message+= "Mean Acceptance: {}\n".format(overallMeanAcceptance)
+    message+= "Cov Acceptance: {}\n".format(overallCovAcceptance)
+    message+= "Weight Acceptance: {}\n".format(overallWeightAcceptance)
 
 
     import cPickle
     with open("../SpeechMCMC/"+writeToName+".txt", 'w') as f:
         cPickle.dump((meansStorage, diagCovsStorage, weightsStorage), f)
 
+    return message
 
 
 

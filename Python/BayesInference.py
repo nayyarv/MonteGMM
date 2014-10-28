@@ -10,17 +10,21 @@ from emailScripy import alertMe
 def main2(numRuns = 100000, numMixtures = 8, speakerIndex = 6):
     import time
 
-    start = time.ctime()
+    
 
     for emotion in emotions:
+        start = time.ctime()
+
         Xpoints = getCorpus(emotion, speakers[speakerIndex])
 
 
-        MCMCRun(Xpoints, emotion+"-"+speakers[speakerIndex], numRuns, numMixtures)
+        message = MCMCRun(Xpoints, emotion+"-"+speakers[speakerIndex], numRuns, numMixtures)
 
-    message = "Start time: {}\nEnd Time: " \
-              "{}\n\nNumRuns: {}, numMixtures:{}".format(
-        start, time.ctime(), numRuns, numMixtures)
+        message += "Start time: {}\nEnd Time: {}\n".format(start, time.ctime())
+
+        message += "\nNumRuns: {}, numMixtures:{}\n ".format(numRuns, numMixtures)
+
+        message += "\nEmotion: {}, speaker:{}\n".format(emotion, speakers[speakerIndex])
 
     alertMe(message)
 

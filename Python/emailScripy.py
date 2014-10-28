@@ -30,3 +30,7 @@ def alertMe(message):
         server.quit()
     except:
         print "Error occured :'("
+
+
+if __name__ == "__main__":
+    alertMe("Testing testing!!")
