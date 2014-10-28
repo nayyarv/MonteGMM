@@ -35,7 +35,10 @@ def main2(numMixtures = 8, speakerIndex = 6):
     for emotion in emotions:
         Xpoints = getCorpus(emotion, speakers[speakerIndex])
         modelID = emotion
-        modelDict[modelID] = GMM(8, n_iter=10000,)
+        modelDict[modelID] = GMM(8, n_iter=10000, init_params='')
+        modelDict[modelID].means_ = 100 * np.random.random(size=(numMixtures, 13))
+        modelDict[modelID].weights_ = np.repeat(1.0/numMixtures, numMixtures)
+        modelDict[modelID].covars_ = 100 * np.random.random(size=(numMixtures, 13))
 
         modelDict[modelID].fit(Xpoints)
 
@@ -61,7 +64,7 @@ def main2(numMixtures = 8, speakerIndex = 6):
             y_test.append(testEmotion)
             y_pred.append(LLEmotion)
 
-        print ""
+    print ""
     cm = confusion_matrix(y_test, y_pred, labels = emotions)
     # print emotions
     # print ""
