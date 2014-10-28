@@ -52,7 +52,7 @@ def main():
         print "Actual Emotion: {}".format(emotion)
 
         for utterance in testCorpus:
-            print "Likelihood it's Sad ", BayesProb(utterance, 8, MCMCmeans, MCMCcovs, MCMCweights) 
+            print "Likelihood it's {}".format(sys.argv[1]), BayesProb(utterance, 8, MCMCmeans, MCMCcovs, MCMCweights) 
 
 if __name__ == '__main__':
     main()
