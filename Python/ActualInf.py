@@ -31,28 +31,71 @@ def BayesProb(utterance, numMixtures, means, diagCovs, weights):
 
     return prob/means.shape[0]
 
-def main():
+def main(speakerIndex=0):
     y_test = []
     y_pred = []
     speakerIndex = 0
     numMixtures = 8
 
-
-    filename = "../SpeechMCMC/{}-CC1.txt".format(sys.argv[1])
     import cPickle
 
-    print filename
-
-    with open(filename) as f:
-        MCMCmeans, MCMCcovs, MCMCweights = cPickle.load(f)
+    results = {}
 
     for emotion in emotions:
-        testCorpus = getIndiviudalData(emotion, speakers[speakerIndex])
+        filename = "../SpeechMCMC/{}-{}.txt".format(emotion, speakers[speakerIndex])
+        print filename
 
-        print "Actual Emotion: {}".format(emotion)
+        results[emotion] = {}
 
-        for utterance in testCorpus:
-            print "Likelihood it's {}".format(sys.argv[1]), BayesProb(utterance, 8, MCMCmeans, MCMCcovs, MCMCweights) 
+        with open(filename) as f:
+            MCMCmeans, MCMCcovs, MCMCweights = cPickle.load(f)
+
+        for testEmotion in emotions:
+            testCorpus = getIndiviudalData(testEmotion, speakers[speakerIndex])
+
+            print "Actual Emotion: {}".format(testEmotion)
+
+            emotRes = np.zeros(len(testCorpus))
+            i = 0
+
+            for utterance in testCorpus:
+                ll = -BayesProb(utterance, 8, MCMCmeans, MCMCcovs, MCMCweights)
+                emotRes[i] = ll
+                i+=1
+
+            results[emotion][testEmotion] = emotRes
+
+    #Search for max
+
+    for actualEmotion in emotions:
+        valList = []
+        for k in results.keys():
+            lls = results[k][actualEmotion]
+            valList.append(lls.reshape(1, len(lls)))
+
+        valList = np.hstack(valList)
+        print valList
+
+        assert (valList.shape[1] ==len(emotions))
+
+        emotIndex = valList.argmax(1)
+
+        classifiedEmotions =  [emotions[i] for i in emotIndex]
+
+        TrueEmotes = [actualEmotion] * valList.shape[0]
+
+        y_test.extend(TrueEmotes)
+        y_pred.extend(classifiedEmotions)
+
+    #some Measure of inference
+
+    print y_test
+    print y_pred
+
+
+
+
+
 
 if __name__ == '__main__':
-    main()
+    main(0)
