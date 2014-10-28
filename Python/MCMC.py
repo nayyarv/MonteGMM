@@ -226,14 +226,14 @@ def MCMCRun(Xpoints, writeToName, numRuns=10000, numMixtures=4):
 
 
     message = ""
-    meassage += "CovIllegalProps: {}\n".format(1.0 * covIllegal / numRuns)
+    message += "CovIllegalProps: {}\n".format(1.0 * covIllegal / numRuns)
     message += "WeightIllegalProps: {}\n".format(1.0 * minWeightIllegal / numRuns)
     message +="SumWeightIllegal: {}\n".format(1.0 *sumWeightIllegal/numRuns)
 
 
-    message+= "Mean Acceptance: {}\n".format(overallMeanAcceptance)
-    message+= "Cov Acceptance: {}\n".format(overallCovAcceptance)
-    message+= "Weight Acceptance: {}\n".format(overallWeightAcceptance)
+    message += "Mean Acceptance: {}\n".format(overallMeanAcceptance)
+    message += "Cov Acceptance: {}\n".format(overallCovAcceptance)
+    message += "Weight Acceptance: {}\n".format(overallWeightAcceptance)
 
 
     import cPickle

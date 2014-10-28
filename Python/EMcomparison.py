@@ -69,15 +69,21 @@ def main2(numMixtures = 8, speakerIndex = 6):
 
 
 
+def fullTest():
+    TotalCM = np.zeros((7, 5,5))
 
+    for i in xrange(len(speakers)):
+        TotalCM[i] = main2( speakerIndex=i)
+        print speakers[i]
+        print emotions
+        print TotalCM[i]
+        print "Normalise Totals :", TotalCM[i].sum(1)
 
-
-
-
-
-
+    print emotions
+    print TotalCM.sum(0)
+    print "Normalise Totals :", TotalCM.sum(0).sum(1)
 
 
 
 if __name__ == "__main__":
-    main2()
+    fullTest()
