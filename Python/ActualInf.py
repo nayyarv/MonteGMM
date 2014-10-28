@@ -31,44 +31,14 @@ def BayesProb(utterance, numMixtures, means, diagCovs, weights):
 
     return prob/means.shape[0]
 
-
-def main2(speakerIndex = 0):
-    y_test = []
-    y_pred = []
-
-    for testEmotion in emotions:
-        testCorpus = getIndiviudalData(testEmotion, speakers[speakerIndex])
-
-        for utterance in testCorpus:
-            LLEmotion = ""
-            maxEmotionVal = -1e10
-
-            #Classify it!
-            for modelEmotion in emotions:
-                llVal = np.sum(modelDict[modelEmotion].score(utterance))
-                #gives me the likelihood of being part of that
-                # print "Actual Emotion: {}, TestForEmotion: {}, value:{}".format(testEmotion, modelEmotion, llVal)
-
-                if llVal > maxEmotionVal:
-                    LLEmotion = modelEmotion
-                    maxEmotionVal = llVal
-
-            # print "Given: {}, Chosen Emotion: {}".format(testEmotion, LLEmotion)
-            y_test.append(testEmotion)
-            y_pred.append(LLEmotion)
-
-    print ""
-    cm = confusion_matrix(y_test, y_pred, labels = emotions)
-    # print emotions
-    # print ""
-    return cm
-
 def main():
     y_test = []
     y_pred = []
     speakerIndex = 0
     numMixtures = 8
-    filename = "../SpeechMCMC/Bored-CC1.txt"
+
+
+    filename = "../SpeechMCMC/{}-CC1.txt".format(sys.argv[1])
     import cPickle
 
     print filename
@@ -79,7 +49,7 @@ def main():
     for emotion in emotions:
         testCorpus = getIndiviudalData(emotion, speakers[speakerIndex])
 
-        print "Actual Emotion: {}".format(emotion),
+        print "Actual Emotion: {}".format(emotion)
 
         for utterance in testCorpus:
             print "Likelihood it's Sad ", BayesProb(utterance, 8, MCMCmeans, MCMCcovs, MCMCweights) 
