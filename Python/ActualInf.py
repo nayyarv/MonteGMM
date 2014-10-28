@@ -71,7 +71,7 @@ def main(speakerIndex=0):
         valList = []
         for k in results.keys():
             lls = results[k][actualEmotion]
-            valList.append(lls.reshape(1, len(lls)))
+            valList.append(lls.reshape(len(lls),1))
 
         valList = np.hstack(valList)
         print valList
