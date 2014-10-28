@@ -65,7 +65,7 @@ def main(speakerIndex=0):
 
             results[emotion][testEmotion] = emotRes
 
-    #Search for max
+    #Search for min
 
     for actualEmotion in emotions:
         valList = []
@@ -78,7 +78,7 @@ def main(speakerIndex=0):
 
         assert (valList.shape[1] ==len(emotions))
 
-        emotIndex = valList.argmax(1)
+        emotIndex = valList.argmin(1) #since we saved as positive
 
         classifiedEmotions =  [emotions[i] for i in emotIndex]
 
