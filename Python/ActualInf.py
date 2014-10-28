@@ -34,7 +34,6 @@ def BayesProb(utterance, numMixtures, means, diagCovs, weights):
 def main(speakerIndex=0):
     y_test = []
     y_pred = []
-    speakerIndex = 0
     numMixtures = 8
 
     import cPickle
