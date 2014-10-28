@@ -1,11 +1,15 @@
 __author__ = 'Varun Nayyar'
 
 import numpy as np
-from MFCCArrayGen import getCorpus, getIndiviudalData, emotions, speakers
+from MFCCArrayGen import getCorpus, getIndiviudalData, emotions as normEmotions, speakers
 from sklearn.mixture import GMM
 from sklearn.metrics import confusion_matrix
 from RobustLikelihoodClass import Likelihood
 
+
+emotions = ["Bored", "Happy", "HotAnger", "Neutral", "Sad"]
+
+speakers = speakers[:3]
 
 
 def main(numMixtures = 8):
@@ -37,10 +41,10 @@ def main2(numMixtures = 8, speakerIndex = 6):
     for emotion in emotions:
         Xpoints = getCorpus(emotion, speakers[speakerIndex])
         modelID = emotion
-        modelDict[modelID] = GMM(8, n_iter=10000, init_params='')
-        modelDict[modelID].means_ = 100 * np.random.random(size=(numMixtures, 13))
-        modelDict[modelID].weights_ = np.repeat(1.0/numMixtures, numMixtures)
-        modelDict[modelID].covars_ = 100 * np.random.random(size=(numMixtures, 13))
+        modelDict[modelID] = GMM(8, n_iter=10000)
+        # modelDict[modelID].means_ = 100 * np.random.random(size=(numMixtures, 13))
+        # modelDict[modelID].weights_ = np.repeat(1.0/numMixtures, numMixtures)
+        # modelDict[modelID].covars_ = 100 * np.random.random(size=(numMixtures, 13))
 
         modelDict[modelID].fit(Xpoints)
 
@@ -85,8 +89,10 @@ def fullTest():
         print "Normalise Totals :", TotalCM[i].sum(1)
 
     print emotions
-    print TotalCM.sum(0)
-    print "Normalise Totals :", TotalCM.sum(0).sum(1)
+    overall = TotalCM.sum(0)
+    normTots = overall.sum(1)
+    print overall
+    print (100.0*overall.T/normTots).T.round(2)
 
 
 

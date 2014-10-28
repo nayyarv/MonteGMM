@@ -28,6 +28,8 @@ class SingleCoreLL(LikelihoodEvaluator):
         return "Single Core Implementation"
 
 
+
+
     def loglikelihood(self, means, diagCovs, weights):
         numMixtures = self.numMixtures
 
