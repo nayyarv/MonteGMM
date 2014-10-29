@@ -41,7 +41,7 @@ def main(speakerIndex=0):
     results = {}
 
     for emotion in emotions:
-        filename = "../SpeechMCMC/{}-{}.txt".format(emotion, speakers[speakerIndex])
+        filename = "../deciSpeechMCMC/{}-{}.txt".format(emotion, speakers[speakerIndex])
         print filename
 
         results[emotion] = {}
@@ -73,7 +73,7 @@ def main(speakerIndex=0):
             valList.append(lls.reshape(len(lls),1))
 
         valList = np.hstack(valList)
-        print valList
+        # print valList
 
         assert (valList.shape[1] ==len(emotions))
 

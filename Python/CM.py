@@ -57,7 +57,11 @@ def main():
 
     print emotions
     print cmTotal
-    print (100.0*cmTotal.T/cmTotal.sum(1)).T.round(2)
+    cmtotper =  (100.0*cmTotal.T/cmTotal.sum(1)).T.round(2)
+    print cmtotper
+    print np.diag(cmtotper).mean()
+
+
 
 
 if __name__ == "__main__":

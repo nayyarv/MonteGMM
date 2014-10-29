@@ -47,7 +47,7 @@ def main2(numMixtures = 8, speakerIndex = 6):
         modelDict[modelID] = GMM(8, n_iter=10000, init_params='')
         modelDict[modelID].means_ = 100 * np.random.random(size=(numMixtures, 13))
         modelDict[modelID].weights_ = np.repeat(1.0/numMixtures, numMixtures)
-        modelDict[modelID].covars_ = 100 * np.random.random(size=(numMixtures, 13))
+        modelDict[modelID].covars_ = 100 * np.random.uniform(size=(numMixtures, 13))
 
         modelDict[modelID].fit(Xpoints)
 
@@ -95,7 +95,9 @@ def fullTest():
     overall = TotalCM.sum(0)
     normTots = overall.sum(1)
     print overall
-    print (100.0*overall.T/normTots).T.round(2)
+    cmtotper =  (100.0*overall.T/normTots).T.round(2)
+
+    print np.diag(cmtotper).mean()
 
 
 
