@@ -91,7 +91,7 @@ def MCMCRun(Xpoints, writeToName, numRuns=10000, numMixtures=4):
     overallCovAcceptance = np.zeros(numMixtures)
     overallWeightAcceptance = 0
 
-    localMean = meanRanges * 1.2
+    localMean = meanRanges * 1.5
     localMean = np.abs(localMean)
     print "LocalMean: ", localMean
     # print np.log(localMean)
