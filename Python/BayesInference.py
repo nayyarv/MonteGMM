@@ -32,5 +32,5 @@ def main2(numRuns = 100000, numMixtures = 8, speakerIndex = 6):
 
 
 if __name__ == "__main__":
-    for i in [5,6]:
+    for i in xrange(len(speakers)):
         main2(numMixtures=8, speakerIndex=i)
