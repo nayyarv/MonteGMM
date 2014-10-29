@@ -74,8 +74,27 @@ def getIndiviudalData(emotion, speakerID):
     #No Vstacking, getting the list of each utterance
     return speakerEmotion
 
+def getDecimatedCorpus(emotion, speakerID):
+    deciLoc = "../DecimatedMFCCs/MFCC{}-{}.txt".format(emotion, speakerID)
+    # print deciLoc
+    with open(deciLoc, 'r') as f:
+        Xpoints = cPickle.load(f)
 
-def getCorpus(emotion, speakerID = None):
+    return Xpoints
+
+
+def pickleTestCorpus(datSize = 1000):
+    # import cPickle
+    for speakerID in speakers:
+        for emotion in emotions:
+            Xpoints = getFullCorpus(emotion, speakerID)
+            indexes = np.random.choice(Xpoints.shape[0], size = datSize, replace=False)
+            Xpoints = Xpoints[indexes]
+            with open("../DecimatedMFCCs/MFCC{}-{}.txt".format(emotion, speakerID), 'w') as f:
+                cPickle.dump(Xpoints, f)
+
+
+def getFullCorpus(emotion, speakerID = None):
     """
     Return the 6 speakers files in a massive vstack
     :param emotion:
@@ -110,7 +129,10 @@ def getCorpus(emotion, speakerID = None):
 
     return np.vstack(MFCCVals)
 
+def getCorpus(emotion, speakerID):
+    return getDecimatedCorpus(emotion, speakerID)
 
 
 if __name__ == "__main__":
     main()
+    # pickleTestCorpus()

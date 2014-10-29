@@ -1,7 +1,7 @@
 __author__ = 'Varun Nayyar'
 
 import numpy as np
-from MFCCArrayGen import getCorpus, getIndiviudalData, emotions as normEmotions, speakers
+from MFCCArrayGen import getCorpus, getIndiviudalData, emotions as normEmotions, speakers, getFullCorpus
 from sklearn.mixture import GMM
 from sklearn.metrics import confusion_matrix
 from RobustLikelihoodClass import Likelihood
@@ -28,15 +28,7 @@ def main(numMixtures = 8):
     ##above two are the same!! Yay
 
 
-def pickleTestCorpus(deciValue = 0.3):
-    import cPickle
-    for speakerID in speakers:
-        for emotion in emotions:
-            Xpoints = getCorpus(emotion, speakerID)
-            indexes = np.random.choice(Xpoints.shape[0], size = deciValue*Xpoints.shape[0], replace=False)
-            Xpoints = Xpoints[indexes]
-            with open("../DecimatedMFCCs/MFCC{}-{}.txt".format(emotion, speakerID), 'w') as f:
-                cPickle.dump(Xpoints, f)
+
 
 
 def main2(numMixtures = 8, speakerIndex = 6):
@@ -50,6 +42,7 @@ def main2(numMixtures = 8, speakerIndex = 6):
 
     for emotion in emotions:
         Xpoints = getCorpus(emotion, speakers[speakerIndex])
+        print Xpoints.shape
         modelID = emotion
         modelDict[modelID] = GMM(8, n_iter=10000, init_params='')
         modelDict[modelID].means_ = 100 * np.random.random(size=(numMixtures, 13))
@@ -107,5 +100,4 @@ def fullTest():
 
 
 if __name__ == "__main__":
-    # fullTest()
-    pickleTestCorpus(0.3)
+    fullTest()
