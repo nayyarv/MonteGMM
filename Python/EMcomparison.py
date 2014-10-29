@@ -7,9 +7,8 @@ from sklearn.metrics import confusion_matrix
 from RobustLikelihoodClass import Likelihood
 
 
-emotions = ["Bored", "Happy", "HotAnger", "Neutral", "Sad"]
 
-speakers = speakers[:3]
+emotions = ["Bored", "Happy", "HotAnger", "Neutral", "Sad"]
 
 
 def main(numMixtures = 8):
@@ -29,6 +28,17 @@ def main(numMixtures = 8):
     ##above two are the same!! Yay
 
 
+def pickleTestCorpus(deciValue = 0.3):
+    import cPickle
+    for speakerID in speakers:
+        for emotion in emotions:
+            Xpoints = getCorpus(emotion, speakerID)
+            indexes = np.random.choice(Xpoints.shape[0], size = deciValue*Xpoints.shape[0], replace=False)
+            Xpoints = Xpoints[indexes]
+            with open("../DecimatedMFCCs/MFCC{}-{}.txt".format(emotion, speakerID), 'w') as f:
+                cPickle.dump(Xpoints, f)
+
+
 def main2(numMixtures = 8, speakerIndex = 6):
 
     modelDict = {}
@@ -41,10 +51,10 @@ def main2(numMixtures = 8, speakerIndex = 6):
     for emotion in emotions:
         Xpoints = getCorpus(emotion, speakers[speakerIndex])
         modelID = emotion
-        modelDict[modelID] = GMM(8, n_iter=10000)
-        # modelDict[modelID].means_ = 100 * np.random.random(size=(numMixtures, 13))
-        # modelDict[modelID].weights_ = np.repeat(1.0/numMixtures, numMixtures)
-        # modelDict[modelID].covars_ = 100 * np.random.random(size=(numMixtures, 13))
+        modelDict[modelID] = GMM(8, n_iter=10000, init_params='')
+        modelDict[modelID].means_ = 100 * np.random.random(size=(numMixtures, 13))
+        modelDict[modelID].weights_ = np.repeat(1.0/numMixtures, numMixtures)
+        modelDict[modelID].covars_ = 100 * np.random.random(size=(numMixtures, 13))
 
         modelDict[modelID].fit(Xpoints)
 
@@ -97,4 +107,5 @@ def fullTest():
 
 
 if __name__ == "__main__":
-    fullTest()
+    # fullTest()
+    pickleTestCorpus(0.3)
