@@ -11,6 +11,7 @@ from RobustLikelihoodClass import Likelihood
 emotions = ["Bored", "Happy", "HotAnger", "Neutral", "Sad"]
 
 
+
 def main(numMixtures = 8):
     Xpoints = getCorpus("Sad")
     numPoints, dim = Xpoints.shape
@@ -31,7 +32,7 @@ def main(numMixtures = 8):
 
 
 
-def main2(numMixtures = 8, speakerIndex = 6):
+def main2(numMixtures = 8, speakerIndex = 6, datSize = 4000):
 
     modelDict = {}
 
@@ -39,15 +40,25 @@ def main2(numMixtures = 8, speakerIndex = 6):
     y_pred = []
 
     # Checkemotions = ["Neutral"]
+    if speakerIndex==6: print datSize
 
     for emotion in emotions:
-        Xpoints = getCorpus(emotion, speakers[speakerIndex])
-        print Xpoints.shape
+        Xpoints = getFullCorpus(emotion, speakers[speakerIndex])
+        
+        # state = np.random.get_state()
+        
+        # np.random.seed(speakerIndex*datSize)
+        # indexes = np.random.choice(Xpoints.shape[0], size = datSize, replace=False)
+
+        # Xpoints = Xpoints[indexes]  
+
+        # np.random.set_state(state)
         modelID = emotion
-        modelDict[modelID] = GMM(8, n_iter=10000, init_params='')
-        modelDict[modelID].means_ = 100 * np.random.random(size=(numMixtures, 13))
-        modelDict[modelID].weights_ = np.repeat(1.0/numMixtures, numMixtures)
-        modelDict[modelID].covars_ = 100 * np.random.uniform(size=(numMixtures, 13))
+
+        modelDict[modelID] = GMM(8, n_iter=10000, init_params='wmc')
+        # modelDict[modelID].means_ = 100 * np.random.random(size=(numMixtures, 13))
+        # modelDict[modelID].weights_ = np.repeat(1.0/numMixtures, numMixtures)
+        # modelDict[modelID].covars_ = 100 * np.random.uniform(size=(numMixtures, 13))
 
         modelDict[modelID].fit(Xpoints)
 
@@ -73,7 +84,7 @@ def main2(numMixtures = 8, speakerIndex = 6):
             y_test.append(testEmotion)
             y_pred.append(LLEmotion)
 
-    print ""
+    # print ""
     cm = confusion_matrix(y_test, y_pred, labels = emotions)
     # print emotions
     # print ""
@@ -86,20 +97,26 @@ def fullTest():
 
     for i in xrange(len(speakers)):
         TotalCM[i] = main2( speakerIndex=i)
-        print speakers[i]
-        print emotions
-        print TotalCM[i]
-        print "Normalise Totals :", TotalCM[i].sum(1)
+        # print speakers[i]
+        # print emotions
+        # print TotalCM[i]
+        # print "Normalise Totals :", TotalCM[i].sum(1)
 
-    print emotions
+    # print emotions
     overall = TotalCM.sum(0)
     normTots = overall.sum(1)
-    print overall
-    cmtotper =  (100.0*overall.T/normTots).T.round(2)
+    # print overall
+    cmtotper =  (100.0*overall.T/normTots).T
+    print cmtotper.round(2)
 
-    print np.diag(cmtotper).mean()
+    return np.diag(cmtotper).mean().round(2)
 
 
 
 if __name__ == "__main__":
-    fullTest()
+    accRates = []
+    for x in xrange(20):
+        print x
+        accRates.append(fullTest())
+
+    print accRates

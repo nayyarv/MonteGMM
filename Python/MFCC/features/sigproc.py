@@ -29,15 +29,17 @@ def framesig(sig, frame_len, frame_step, winfunc=lambda x: numpy.ones((1, x))):
 
     indices = numpy.tile(numpy.arange(0, frame_len), (numframes, 1)) + numpy.tile(
         numpy.arange(0, numframes * frame_step, frame_step), (frame_len, 1)).T
+    
+
     indices = numpy.array(indices, dtype=numpy.int32)
     frames = padsignal[indices]
-    # print "Frame.Shape", frames.shape
-    # print "Numframes: {}, frameLen: {}".format(numframes, frame_len)
+    print "Frame.Shape", frames.shape
+    print "Numframes: {}, frameLen: {}".format(numframes, frame_len)
 
     # Varun's VAD:
     frameVars = numpy.var(frames, 1)
     # print frameVars
-    frames = frames[numpy.where(frameVars > frameVars.mean() * 0.01)]
+    frames = frames[numpy.where(frameVars > sig.var() * 0.01)]
     # print frameVars.mean()
     # print "Frame.Shape", frames.shape
     # print "Using Varun's modified version!"
