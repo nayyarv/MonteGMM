@@ -14,7 +14,7 @@
 
 import numpy as np
 from scipy.stats import norm
-from emailScripy import alertMe
+from emailAlerter import alertMe
 import cPickle
 import time
 

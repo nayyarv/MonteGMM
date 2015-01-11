@@ -110,8 +110,6 @@ def MCMCRun(Xpoints, writeToName, numRuns=10000, numMixtures=4):
     weightsStorage = np.zeros((numRuns / Lag, numMixtures))
 
     # exit()
-
-
     for i in xrange(1, numRuns):
         # proposalMeans = 0.02 * localMean * np.random.normal(size=(numMixtures, LLeval.dim)).astype(np.float32)
 

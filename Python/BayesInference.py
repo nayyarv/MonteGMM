@@ -4,7 +4,7 @@ import numpy as np
 from MFCCArrayGen import emotions, speakers, getIndiviudalData, getCorpus
 from MCMC import MCMCRun
 from RobustLikelihoodClass import Likelihood
-from emailScripy import alertMe
+from emailAlerter import alertMe
 
 
 def main2(numRuns = 100000, numMixtures = 8, speakerIndex = 6):

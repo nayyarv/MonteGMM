@@ -17,6 +17,31 @@ class LikelihoodEvaluator():
     __call__ = loglikelihood
 
 
+class scikitLL(LikelihoodEvaluator):
+    """
+    Fastest Single Core Version so far!
+    """
+
+
+    def __init__(self, Xpoints, numMixtures):
+        print "Scikits Learn Implementation Chosen"
+        LikelihoodEvaluator.__init__(self, Xpoints, numMixtures)
+        from sklearn.mixture import GMM as GMMEval
+        self.evaluator = GMMEval(n_components=numMixtures)
+        self.Xpoints = Xpoints
+
+
+    def __str__(self):
+        return "SciKit's learn implementation Implementation"
+
+
+    def loglikelihood(self, means, diagCovs, weights):
+        self.evaluator.weights_ = weights
+        self.evaluator.covars_ = diagCovs
+        self.evaluator.means_ = means
+
+        return np.sum(self.evaluator.score(self.Xpoints))
+
 
 class SingleCoreLL(LikelihoodEvaluator):
 
@@ -26,7 +51,6 @@ class SingleCoreLL(LikelihoodEvaluator):
 
     def __str__(self):
         return "Single Core Implementation"
-
 
 
 
@@ -151,6 +175,46 @@ try:
     import pycuda
     Likelihood = GPULL
 except ImportError:
-    Likelihood= SingleCoreLL
+    try:
+        from sklearn.mixture import GMM
+        Likelihood= scikitLL
+    except ImportError:
+        Likelihood = SingleCoreLL
+
+else:
+    Likelihood = SingleCoreLL
 
 
+def setup():
+    import numpy as np
+    a = np.random.random((100,1))
+    sk = scikitLL(a, 4)
+    sk.evaluator.fit(a)
+
+    Sin = SingleCoreLL(a,4)
+
+    print np.sum(sk.evaluator.score(a))
+
+    print Sin.loglikelihood(sk.evaluator.means_, sk.evaluator.covars_, sk.evaluator.weights_)
+
+
+if __name__ == '__main__':
+    import timeit
+    setupStr = """
+import numpy as np
+from __main__ import scikitLL, SingleCoreLL
+a = np.random.random((100,1))
+sk = scikitLL(a, 4)
+sk.evaluator.fit(a)
+
+Sin = SingleCoreLL(a,4)
+    """
+    actuSK = """
+np.sum(sk.evaluator.score(a))
+    """
+
+    actuSin = """
+Sin.loglikelihood(sk.evaluator.means_, sk.evaluator.covars_, sk.evaluator.weights_)
+    """
+
+    print timeit.timeit(actuSin, setupStr, number = 1000)
