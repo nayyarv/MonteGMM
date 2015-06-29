@@ -1,9 +1,10 @@
 __author__ = 'Varun Nayyar'
 
 import numpy as np
-from RobustLikelihoodClass import Likelihood
-from MFCCArrayGen import SadCorpus
 from scipy.stats import norm
+
+from RobustLikelihoodClass import Likelihood
+from Utils.MFCCArrayGen import SadCorpus
 
 
 def weightProp2(currWeights):

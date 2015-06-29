@@ -8,16 +8,14 @@ obj[0].shape = (nframes, 13)
 
 """
 
-from features import mfcc
-import scipy.io.wavfile as wav
+import os
+import cPickle
 
-from matplotlib import pyplot as plt
+import scipy.io.wavfile as wav
 import numpy as np
 
-from scipy import signal
-import os
+from MFCC.features import mfcc
 
-import cPickle
 
 
 

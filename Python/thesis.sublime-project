@@ -1,8 +1,0 @@
-{
-	
-	"build_systems":
-	[{
-		"name": "Run with args",
-		"cmd": ["python", "$file", "64", "800"]
-	}]
-}

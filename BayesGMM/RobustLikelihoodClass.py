@@ -107,7 +107,7 @@ class GPULL(LikelihoodEvaluator):
 
         self.gpuarray = gpuarray
 
-        with open("../Cuda/KernelV2.cu") as f:
+        with open("KernelV2.cu") as f:
 
             if self.numPoints >= 1024:
                 mod = SourceModule(f.read().replace('512', '1024'))

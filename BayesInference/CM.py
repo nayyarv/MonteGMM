@@ -1,11 +1,9 @@
 __author__ = 'Varun Nayyar'
 
 import numpy as np
-from matplotlib import pyplot as plt
-
 from sklearn.metrics import confusion_matrix
-from MFCCArrayGen import emotions as origEmotions
-from MFCCArrayGen import speakers
+
+from Utils.MFCCArrayGen import speakers
 
 # emotions = origEmotions[1:] + [origEmotions[0]]
 emotions = ["Bored", "Happy", "HotAnger", "Neutral", "Sad"]

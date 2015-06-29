@@ -2,10 +2,10 @@
 
 fileLoc = '/Users/varunnayyar/Documents/Speech Stuff/LDC Cleaned/Bored/BoredCL1_1.wav'
 
-from features.base import mfcc
-
 import scipy.io.wavfile as wav
 import numpy as np
+
+from MFCC.features.base import mfcc
 
 (rate, sig) = wav.read(fileLoc)
 

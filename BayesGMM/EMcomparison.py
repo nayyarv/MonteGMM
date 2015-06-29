@@ -1,12 +1,11 @@
 __author__ = 'Varun Nayyar'
 
 import numpy as np
-from MFCCArrayGen import getCorpus, getIndiviudalData, emotions as normEmotions, speakers, getFullCorpus
 from sklearn.mixture import GMM
 from sklearn.metrics import confusion_matrix
+
+from Utils.MFCCArrayGen import getCorpus, getIndiviudalData, speakers, getFullCorpus
 from RobustLikelihoodClass import Likelihood
-
-
 
 emotions = ["Bored", "Happy", "HotAnger", "Neutral", "Sad"]
 

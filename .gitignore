@@ -1,9 +1,10 @@
 
 Data/
 *.pyc
+.idea
 
 SpeechMCMC/
 
 
-Python/.idea/workspace.xml
-Python/*.sublime*
+BayesGMM/.idea/workspace.xml
+BayesGMM/*.sublime*

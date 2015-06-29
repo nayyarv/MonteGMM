@@ -1,9 +1,7 @@
 __author__ = 'Varun Nayyar'
 
-import numpy as np
-from MFCCArrayGen import emotions, speakers, getIndiviudalData, getCorpus
+from Utils.MFCCArrayGen import emotions, speakers, getCorpus
 from MCMC import MCMCRun
-from RobustLikelihoodClass import Likelihood
 from emailAlerter import alertMe
 
 

@@ -1,11 +1,12 @@
-
 import numpy as np
-from MFCCArrayGen import getCorpus, getIndiviudalData, emotions, speakers
+
+from Utils.MFCCArrayGen import getIndiviudalData, emotions, speakers
+
 
 # from sklearn.metrics import confusion_matrix
 from RobustLikelihoodClass import Likelihood
 
-import sys, os
+import os
 
 def BayesProb(utterance, numMixtures, means, diagCovs, weights):
     """
