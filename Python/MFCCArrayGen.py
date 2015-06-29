@@ -132,7 +132,15 @@ def getFullCorpus(emotion, speakerID = None):
 def getCorpus(emotion, speakerID):
     return getDecimatedCorpus(emotion, speakerID)
 
+def myFunct(dat1 = 5, dat2 = 10):
+    print dat1 - dat2
+
+
+
+def test():
+    myFunct(10,3)
+
 
 if __name__ == "__main__":
-    main()
-    # pickleTestCorpus()
+    test()
+    # pass

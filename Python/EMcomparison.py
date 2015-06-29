@@ -115,6 +115,7 @@ def fullTest():
 
 if __name__ == "__main__":
     accRates = []
+
     for x in xrange(20):
         print x
         accRates.append(fullTest())

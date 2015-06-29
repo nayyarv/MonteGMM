@@ -6,23 +6,16 @@ print "Starting"
 
 numPoints = 64
 
-with open("../Data/Mean2,3_{}pts_1dim_MCMCRes800000.txt".format(16)) as f:
-    samples16 = cPickle.load(f)
-
-with open("../Data/Mean2,3_{}pts_1dim_MCMCRes800000.txt".format(64)) as f:
-    samples64 = cPickle.load(f)
-
-with open("../Data/Mean2,3_{}pts_1dim_MCMCRes800000.txt".format(256)) as f:
-    samples256 = cPickle.load(f)
+with open("../Data/Mean2,3_{}pts_1dim_MCMCRes800000.txt".format(numPoints)) as f:
+    samples = cPickle.load(f)
 
 print "Finished UnPickling"
 
-# print samples
 burnIn = 1000
 endPoint = 100000
 lag = 100
 
-acorrOnly = True
+acorrOnly = False
 
 if acorrOnly:
 
@@ -44,14 +37,12 @@ if acorrOnly:
 
 else:
     from EMComparisonToy import EMSpread
-
-    numPoints = 16
     EMmeans = EMSpread(numPoints)
     plt.figure(tight_layout=True)
     plt.title("log $p(\\theta|x)$ and 100 EM estimates, {} points ".format(numPoints))
     plt.xlabel("$\mu_1$")
     plt.ylabel("$\mu_2$")
-    plt.hexbin(samples.T[0][burnIn::lag], samples.T[1][burnIn::lag], bins='log', cmap=plt.cm.YlGnBu_r)
-    plt.plot(EMmeans.T[0], EMmeans.T[1], 'x')
+    plt.hexbin(samples.T[0][burnIn::lag], samples.T[1][burnIn::lag], bins='log')
+    # plt.plot(EMmeans.T[0], EMmeans.T[1], 'x')
 
     plt.show()
