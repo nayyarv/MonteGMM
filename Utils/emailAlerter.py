@@ -1,4 +1,8 @@
 #! /usr/local/bin/python
+"""
+Handy script that can send email alerts to yourself (or another for that matter). This allows for alerts as to
+progress of the code, or in the case of failures, no alerts at all.
+"""
 
 
 

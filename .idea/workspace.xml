@@ -2,52 +2,43 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="983a7ba6-15be-4d6f-9523-279d848eb1d2" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/BayesInference/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MFCC/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Utils/__init__.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Cuda/MainKernel.cu" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Cuda/cuPrintf.cu" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Cuda/cuPrintf.cuh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Cuda/gmmVN.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Cuda/helper.c" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Cuda/like.exe" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Cuda/like.exp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Cuda/like.lib" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Cuda/likelihoodeval.cu" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Cuda/testKernel" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Python/MFCC/MFCC.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Python/MFCC/features/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Python/MFCC/features/base.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Python/MFCC/features/sigproc.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Python/MFCC/wavreading.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Python/thesis.sublime-project" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Python/thesis.sublime-workspace" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Cuda/KernelV2.cu" afterPath="$PROJECT_DIR$/BayesGMM/KernelV2.cu" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/.idea/.name" afterPath="$PROJECT_DIR$/BayesGMM/.idea/.name" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/.idea/Python.iml" afterPath="$PROJECT_DIR$/BayesGMM/.idea/Python.iml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/.idea/encodings.xml" afterPath="$PROJECT_DIR$/BayesGMM/.idea/encodings.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/.idea/misc.xml" afterPath="$PROJECT_DIR$/BayesGMM/.idea/misc.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/.idea/modules.xml" afterPath="$PROJECT_DIR$/BayesGMM/.idea/modules.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/.idea/scopes/scope_settings.xml" afterPath="$PROJECT_DIR$/BayesGMM/.idea/scopes/scope_settings.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/.idea/vcs.xml" afterPath="$PROJECT_DIR$/BayesGMM/.idea/vcs.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/ActualInf.py" afterPath="$PROJECT_DIR$/BayesInference/ActualInf.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/BayesInference.py" afterPath="$PROJECT_DIR$/BayesInference/BayesInference.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/CM.py" afterPath="$PROJECT_DIR$/BayesInference/CM.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/DataAnalysis.py" afterPath="$PROJECT_DIR$/BayesGMM/DataAnalysis.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/DataGenerator.py" afterPath="$PROJECT_DIR$/BayesGMM/DataGenerator.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/EMComparisonToy.py" afterPath="$PROJECT_DIR$/BayesGMM/EMComparisonToy.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/EMcomparison.py" afterPath="$PROJECT_DIR$/BayesGMM/EMcomparison.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/MCMC.py" afterPath="$PROJECT_DIR$/BayesGMM/MCMC.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/MFCC/MFCCAlt.py" afterPath="$PROJECT_DIR$/MFCC/MFCCAlt.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/MFCC/MFCCextraction.py" afterPath="$PROJECT_DIR$/MFCC/MFCCextraction.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/MFCCArrayGen.py" afterPath="$PROJECT_DIR$/Utils/MFCCArrayGen.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/RobustLikelihoodClass.py" afterPath="$PROJECT_DIR$/BayesGMM/RobustLikelihoodClass.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/__init__.py" afterPath="$PROJECT_DIR$/BayesGMM/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/adaptiveMCMC.py" afterPath="$PROJECT_DIR$/BayesGMM/adaptiveMCMC.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/deciDataResMC.py" afterPath="$PROJECT_DIR$/BayesGMM/deciDataResMC.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/emailAlerter.py" afterPath="$PROJECT_DIR$/Utils/emailAlerter.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Python/fullDataResuMC.py" afterPath="$PROJECT_DIR$/BayesGMM/fullDataResuMC.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/BayesGMM/PosteriorMH.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCBored-CC1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCBored-CL1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCBored-GG1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCBored-JG1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCBored-MF1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCBored-MK1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCBored-MM1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHappy-CC1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHappy-CL1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHappy-GG1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHappy-JG1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHappy-MF1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHappy-MK1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHappy-MM1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHotAnger-CC1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHotAnger-CL1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHotAnger-GG1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHotAnger-JG1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHotAnger-MF1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHotAnger-MK1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCHotAnger-MM1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCNeutral-CC1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCNeutral-CL1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCNeutral-GG1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCNeutral-JG1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCNeutral-MF1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCNeutral-MK1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCNeutral-MM1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCSad-CC1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCSad-CL1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCSad-GG1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCSad-JG1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCSad-MF1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCSad-MK1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/DecimatedMFCCs/MFCCSad-MM1.txt" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Utils/emailAlerter.py" afterPath="$PROJECT_DIR$/Utils/emailAlerter.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MonteGMM.iws" />
@@ -61,6 +52,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/MonteGMM$MCMC.coverage" NAME="MCMC Coverage Results" MODIFIED="1435572246257" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BayesGMM" />
+  </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
@@ -70,93 +64,75 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MCMC.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MCMC.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BayesGMM/MCMC.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RobustLikelihoodClass.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BayesGMM/RobustLikelihoodClass.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="109" column="19" selection-start-line="109" selection-start-column="19" selection-end-line="109" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="emailAlerter.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Utils/emailAlerter.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataAnalysis.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BayesGMM/DataAnalysis.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.7009346">
+              <caret line="61" column="44" selection-start-line="61" selection-start-column="33" selection-end-line="61" selection-end-column="44" />
               <folding>
-                <element signature="e#0#14#0" expanded="true" />
+                <element signature="e#29#47#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActualInf.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BayesInference/ActualInf.py">
+      <file leaf-file-name="PosteriorMH.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BayesGMM/PosteriorMH.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <caret line="24" column="7" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
+              <folding>
+                <element signature="e#29#47#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataGenerator.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ExamplesComparisons/DataGenerator.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MFCCArrayGen.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="deciDataResMC.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BayesGMM/deciDataResMC.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EMcomparison.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ExamplesComparisons/EMcomparison.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adaptiveMCMC.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BayesGMM/adaptiveMCMC.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="16" column="49" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MFCCArrayGen.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Utils/MFCCArrayGen.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24958402">
-              <caret line="18" column="21" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fullDataResuMC.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BayesGMM/fullDataResuMC.py">
-          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MFCC/features/base.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -188,6 +164,8 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/BayesGMM/RobustLikelihoodClass.py" />
         <option value="$PROJECT_DIR$/BayesGMM/KernelV2.cu" />
+        <option value="$PROJECT_DIR$/Utils/emailAlerter.py" />
+        <option value="$PROJECT_DIR$/BayesGMM/PosteriorMH.py" />
       </list>
     </option>
   </component>
@@ -199,10 +177,9 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
     <option name="y" value="23" />
-    <option name="width" value="1833" />
-    <option name="height" value="1057" />
+    <option name="width" value="1225" />
+    <option name="height" value="777" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -263,6 +240,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MonteGMM" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MonteGMM" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BayesGMM" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -279,13 +270,14 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/IllustratingExamples" />
       <recent name="$PROJECT_DIR$/Utils" />
       <recent name="$PROJECT_DIR$/BayesGMM" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/BayesInference" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.MFCCArrayGen">
+  <component name="RunManager" selected="Python.MCMC">
     <configuration default="false" name="MFCCArrayGen" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -304,6 +296,24 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="MCMC" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BayesGMM" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="MonteGMM" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BayesGMM/MCMC.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="BashConfigurationType" factoryName="Bash">
@@ -499,12 +509,14 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="1">
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Python.MFCCArrayGen" />
+      <item index="1" class="java.lang.String" itemvalue="Python.MCMC" />
     </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Python.MFCCArrayGen" />
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Python.MCMC" />
+        <item index="1" class="java.lang.String" itemvalue="Python.MFCCArrayGen" />
       </list>
     </recent_temporary>
   </component>
@@ -522,16 +534,29 @@
       <option name="project" value="LOCAL" />
       <updated>1435570953553</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Major Refactoring and deletion of unecessary code. Quick Snapshot before complete destruction.">
+      <created>1435572078199</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1435572078199</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Final Refactor, MCMC runner still works as does Single Thread implementation. Unkown performance of the GPU accelerated version">
+      <created>1435572302314</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1435572302314</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="23" width="1833" height="1057" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="23" width="1225" height="777" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32942432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -540,17 +565,17 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25237298" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38207945" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943678" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Tail" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46960485" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943678" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
@@ -568,14 +593,16 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Removed unecessary files ahead of refactor for actual further use," />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed unecessary files ahead of refactor for actual further use," />
+    <MESSAGE value="Major Refactoring and deletion of unecessary code. Quick Snapshot before complete destruction." />
+    <MESSAGE value="Final Refactor, MCMC runner still works as does Single Thread implementation. Unkown performance of the GPU accelerated version" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final Refactor, MCMC runner still works as does Single Thread implementation. Unkown performance of the GPU accelerated version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/BayesInference/BayesInference.py">
+    <entry file="file://$PROJECT_DIR$/Inference/BayesInference.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -587,11 +614,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4" column="17" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="17" />
-          <folding />
+          <folding>
+            <element signature="e#29#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BayesInference/BayesInference.py">
+    <entry file="file://$PROJECT_DIR$/Inference/BayesInference.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
@@ -603,7 +632,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#29#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -614,26 +645,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BayesInference/BayesInference.py">
+    <entry file="file://$PROJECT_DIR$/Inference/BayesInference.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DecimatedMFCCs/MFCCBored-CC1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BayesGMM/adaptiveMCMC.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -662,7 +677,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BayesInference/CM.py">
+    <entry file="file://$PROJECT_DIR$/Inference/CM.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -670,7 +685,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BayesGMM/EMComparisonToy.py">
+    <entry file="file://$PROJECT_DIR$/ExamplesComparisons/EMComparisonToy.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="33" column="56" selection-start-line="33" selection-start-column="56" selection-end-line="33" selection-end-column="56" />
@@ -678,18 +693,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BayesInference/ActualInf.py">
+    <entry file="file://$PROJECT_DIR$/Inference/ActualInf.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BayesGMM/fullDataResuMC.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -710,14 +717,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BayesGMM/MCMC.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BayesGMM/KernelV2.cu">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.12479201">
@@ -726,9 +725,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BayesGMM/RobustLikelihoodClass.py">
+    <entry file="file://$PROJECT_DIR$/ExamplesComparisons/DataGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BayesGMM/deciDataResMC.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ExamplesComparisons/EMcomparison.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BayesGMM/adaptiveMCMC.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="49" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BayesGMM/fullDataResuMC.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34941763">
+          <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BayesGMM/RobustLikelihoodClass.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.9201331">
           <caret line="109" column="19" selection-start-line="109" selection-start-column="19" selection-end-line="109" selection-end-column="19" />
           <folding />
         </state>
@@ -736,23 +775,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Utils/emailAlerter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.074875206">
+          <caret line="3" column="67" selection-start-line="3" selection-start-column="67" selection-end-line="3" selection-end-column="67" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BayesGMM/DataGenerator.py">
+    <entry file="file://$PROJECT_DIR$/ExamplesComparisons/DataAnalysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BayesGMM/DataAnalysis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.2762063">
           <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
@@ -762,9 +793,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Utils/MFCCArrayGen.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24958402">
-          <caret line="18" column="21" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BayesGMM/PosteriorMH.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="7" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
+          <folding>
+            <element signature="e#29#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BayesGMM/MCMC.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7009346">
+          <caret line="61" column="44" selection-start-line="61" selection-start-column="33" selection-end-line="61" selection-end-column="44" />
+          <folding>
+            <element signature="e#29#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
